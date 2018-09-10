@@ -1,0 +1,127 @@
+query getRepositoryInfo($repo_name: String!, $owner_name: String!) {
+  repository(name: $repo_name, owner: $owner_name) {
+    id
+    name
+    owner{
+       login
+    }
+    isFork
+    parent {
+      id
+      name
+    }
+    forkCount
+    createdAt # as java.util.Date
+    description
+    resourcePath
+    primaryLanguage {
+      id
+      name
+    }
+    languages{
+      totalCount
+    }
+    licenseInfo {
+      id
+      name
+    }
+    defaultBranchRef {
+      id
+      name
+    }
+    refs(refPrefix:"refs/heads/"){
+      totalCount
+    }
+    stargazers {
+      totalCount
+    }
+    watchers {
+      totalCount
+    }
+  }
+}
+
+query getLanguageInfo($repo_name: String!, $owner_name: String!, $count:Int!, $cursor:String = null)
+{
+  repository(name: $repo_name, owner: $owner_name){
+    languages(first:$count, after:$cursor){
+      edges{
+        node{
+          id
+          name
+        }
+        cursor
+      }
+      pageInfo{
+        endCursor
+        startCursor
+        hasNextPage
+		hasPreviousPage
+      }
+    }
+  } 
+}
+
+query getBranchesInfo($repo_name: String!, $owner_name: String!, $count:Int!, $cursor:String = null){
+  repository(name: $repo_name, owner: $owner_name){
+    refs(first:$count, after:$cursor,refPrefix:"refs/heads/"){
+      edges{
+        node{
+          id
+          name
+        }
+        cursor
+      }
+      pageInfo{
+        endCursor
+        startCursor
+        hasNextPage
+		hasPreviousPage
+      }
+    }
+  }
+}
+
+query getWatchersInfo($repo_name: String!, $owner_name: String!, $count:Int!, $cursor:String = null){
+  repository(name: $repo_name, owner: $owner_name){
+    watchers(first:$count, after:$cursor){
+      edges{
+        node{
+          id
+          name
+          login
+          avatarUrl
+        }
+        cursor
+      }
+      pageInfo{
+        endCursor
+        startCursor
+        hasNextPage
+		hasPreviousPage
+      }
+    }
+  }
+}
+
+query getStargazersInfo($repo_name: String!, $owner_name: String!, $count:Int!, $cursor:String = null){
+  repository(name: $repo_name, owner: $owner_name){
+    stargazers(first:$count,after:$cursor){
+      edges{
+        node{
+          id
+          name
+          login
+          avatarUrl
+        }
+        cursor
+      }
+      pageInfo{
+        endCursor
+        startCursor
+        hasNextPage
+		hasPreviousPage
+      }
+    }
+  }
+}

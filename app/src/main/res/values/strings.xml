@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">User Info Viewer</string>
+    <string name="owner">Автор</string>
+    <string name="hint">Введите имя пользователя или его фрагмент</string>
+    <string name="strAvatar">Аватар</string>
+    <string name="strStarred">Кол-во отмеченных репозиториев</string>
+
+    <string name="UserLogin">Логин %1$s</string>
+    <string name="UserName">Имя %1$s</string>
+    <string name="UserRepositories">Репозиториев: %1$d</string>
+    <string name="UserStarredRepos">Отмеченных репозиториев: %1$d</string>
+    <string name="UserOrganisations">Организаций: %1$d</string>
+    <string name="UserMail">E-mail: %1$s</string>
+    <string name="UserURL">URL: %1$s</string>
+
+    <string name="UserNoLogin">Логин не указан</string>
+    <string name="UserNoName">Имя не указано</string>
+    <string name="UserNoRepositories">Репозиториев нет</string>
+    <string name="UserNoStarredRepos">Отмеченных репозиториев нет</string>
+    <string name="UserNoOrganisations">Организаций нет</string>
+    <string name="UserNoEmail">E-mail не указан</string>
+    <string name="UserNoURL">URL не определён</string>
+
+    <string name="RepoCreatedAt">Создан: %1$s</string>
+    <string name="RepoForkCount">Форков: %1$d</string>
+    <string name="RepoForkedAt">Форкнут от %1$s</string>
+    <string name="RepoResPath">Путь к ресурсам: %1$s</string>
+
+    <string name="RepoLangs">Всего языков %1$d, основной %2$s</string>
+    <string name="RepoBranches">Всего ветвей %1$d, основная %2$s</string>
+    <string name="RepoStargazers">Отметивших %1$d</string>
+    <string name="RepoWatchers">Наблюдателей %1$d</string>
+
+    <string name="RepoNoLangs">Нет используемых языков</string>
+    <string name="RepoNoBranches">Нет ветвей</string>
+    <string name="RepoNoStargazers">Нет отметивших</string>
+    <string name="RepoNoWatchers">Нет наблюдателей</string>
+    <string name="RepoNoForks">Нет форков</string>
+
+    <string name="empty"> </string>
+    <string name="emptydesc">Описание не указано</string>
+    <string name="emptyname">Имя не указано</string>
+    <string name="emptyowner">Владелец не указан</string>
+    <string name="emptydate">Дата создания не установлена</string>
+    <string name="emptypath">Путь к ресурсам не установлен</string>
+    <string name="emptylogin">Логин не указан</string>
+
+    <string name="placeholder">placeholder</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="dialog_action_ok">OK</string>
+    <string name="dialog_title_error">Ошибка!</string>
+    <string name="net_error">Ошибка сети</string>
+    <string name="retry_string">Повтор</string>
+    <string name="cancel_string">Отмена</string>
+    <string name="menu_search">Поиск</string>
+</resources>

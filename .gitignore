@@ -30,3 +30,11 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+\.idea/
+
+*.iml
+
+app/src/androidTest/
+
+app/src/test/

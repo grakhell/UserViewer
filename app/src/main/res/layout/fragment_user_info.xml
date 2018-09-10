@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.userInfoFragment.view.UserInfoFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginEnd="@dimen/mtrl_card_spacing"
+        android:layout_marginBottom="@dimen/mtrl_card_spacing"
+        android:minHeight="200dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="271dp"
+                    android:layout_height="156dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:contentDescription="@string/strAvatar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.505"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLogin"
+                    app:layout_constraintVertical_bias="0.029"
+                    app:srcCompat="@drawable/ic_outline_placeholder_24px" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/empty"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
+                    tools:text="@string/UserName" />
+
+
+                <TextView
+                    android:id="@+id/tvLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/work_sans_bold"
+                    android:text="@string/empty"
+                    android:textSize="21sp"
+                    android:typeface="sans"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/placeholder" />
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/empty"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName"
+                    tools:text="@string/UserMail" />
+
+                <TextView
+                    android:id="@+id/tvURL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/empty"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEmail"
+                    tools:text="@string/UserURL" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+                <LinearLayout
+                    android:id="@+id/BranchesLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvOrganisations"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textSize="17sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvLanguages"
+                            tools:text="@string/UserOrganisations" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnOrgs"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="?attr/colorBackgroundFloating"
+                            app:backgroundTint="?attr/colorBackgroundFloating"
+                            app:icon="@drawable/ic_baseline_keyboard_arrow_down_24px"
+                            app:iconTint="?attr/colorPrimaryDark"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvLanguages" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divOrganisations1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="visible"/>
+
+                    <net.cachapa.expandablelayout.ExpandableLayout
+                        android:id="@+id/orgExpView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btnOrgs">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/organisationsList"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            tools:listitem="@layout/fragment_user_info_organisation" />
+
+                    </net.cachapa.expandablelayout.ExpandableLayout>
+
+                    <View
+                        android:id="@+id/divOrganisations2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="visible"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/WatchersLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/BranchesLayout">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvRepo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textSize="17sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvCreatedAt"
+                            tools:text="@string/UserRepositories" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnRepos"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="?attr/colorBackgroundFloating"
+                            app:backgroundTint="?attr/colorBackgroundFloating"
+                            app:icon="@drawable/ic_baseline_keyboard_arrow_down_24px"
+                            app:iconTint="?attr/colorPrimaryDark"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divRepositories1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="visible"/>
+
+                    <net.cachapa.expandablelayout.ExpandableLayout
+                        android:id="@+id/repoExpView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btnRepos">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/reposList"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            tools:listitem="@layout/fragment_user_info_repository" />
+
+                    </net.cachapa.expandablelayout.ExpandableLayout>
+
+                    <View
+                        android:id="@+id/divRepositories2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="visible"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/StarredRepoLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/WatchersLayout">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvStarredRepo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="@string/empty"
+                            android:textSize="17sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvRepo"
+                            app:srcCompat="@drawable/ic_baseline_star_18px"
+                            tools:text="@string/UserStarredRepos" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnStRepos"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="?attr/colorBackgroundFloating"
+                            app:backgroundTint="?attr/colorBackgroundFloating"
+                            app:icon="@drawable/ic_baseline_keyboard_arrow_down_24px"
+                            app:iconTint="?attr/colorPrimaryDark"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvRepo" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divStaredRepos1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="visible"/>
+
+                    <net.cachapa.expandablelayout.ExpandableLayout
+                        android:id="@+id/strRepoExpView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btnStRepos">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/starredRepoList"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            tools:listitem="@layout/fragment_user_info_starredrepository" />
+
+                    </net.cachapa.expandablelayout.ExpandableLayout>
+
+                    <View
+                        android:id="@+id/divStaredRepos2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="visible"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+</FrameLayout>

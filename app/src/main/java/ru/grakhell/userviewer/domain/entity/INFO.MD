@@ -1,0 +1,1 @@
+Entity classes generating automatically by ApolloCodeGen

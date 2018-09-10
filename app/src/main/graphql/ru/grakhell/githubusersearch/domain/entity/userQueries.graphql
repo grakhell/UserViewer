@@ -1,0 +1,114 @@
+query GetUserSearchResult($owner_name: String!, $count: Int!, $cursor: String = null) {
+  search(query: $owner_name, type: USER, first: $count, after: $cursor) {
+    edges {
+      node {
+        ... on User {
+          id
+          name
+          login
+          avatarUrl # as java.lang.String
+          repositories {
+            totalCount
+          }
+          starredRepositories {
+            totalCount
+          }
+        }
+      }
+      cursor
+    }
+    pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+    }
+  }
+}
+
+query GetUserInfo($owner_name: String!) {
+  user(login: $owner_name){
+          id
+          name
+          login
+          avatarUrl # as java.lang.String
+          email
+    			websiteUrl
+          repositories {
+            totalCount
+          }
+          starredRepositories {
+            totalCount
+          }
+          organizations {
+            totalCount
+          }
+  }
+}
+
+query GetUserRepoInfo($user_name: String!, $count: Int!, $cursor: String = null) {
+  user(login: $user_name) {
+    repositories(first: $count, after: $cursor) {
+      edges {
+        node {
+          id
+          name
+          description
+        }
+        cursor
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+}
+
+query GetUserStarredRepoInfo($user_name: String!, $count: Int!, $cursor: String = null) {
+  user(login: $user_name) {
+    starredRepositories(first: $count, after: $cursor) {
+      edges {
+        node {
+          id
+          name
+          owner {
+            id
+            login
+          }
+          description
+        }
+        cursor
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+}
+
+query GetUserOrganisationInfo($user_name: String!, $count: Int!, $cursor: String = null) {
+  user(login: $user_name) {
+    organizations(first: $count, after: $cursor) {
+      edges {
+        node {
+          id
+          name
+          description
+        }
+        cursor
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+}

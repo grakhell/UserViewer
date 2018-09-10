@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startFragment">
+
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="ru.grakhell.userviewer.ui.fragments.searchResultFragment.view.SearchResultFragment"
+        android:label="SearchResultFragment" >
+        <action
+            android:id="@+id/action_searchResultFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/searchResultFragment" />
+        <argument
+            android:name="USER_NAME" />
+    </fragment>
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="ru.grakhell.userviewer.ui.fragments.userInfoFragment.view.UserInfoFragment"
+        android:label="fragment_user_info"
+        tools:layout="@layout/fragment_user_info" >
+        <action
+            android:id="@+id/action_userInfoFragment_to_repositoryInfoFragment"
+            app:destination="@id/repositoryInfoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/userInfoFragment" />
+        <argument
+            android:name="USER_NAME"/>
+    </fragment>
+    <fragment
+        android:id="@+id/repositoryInfoFragment"
+        android:name="ru.grakhell.userviewer.ui.fragments.repositoryInfoFragment.view.RepositoryInfoFragment"
+        android:label="fragment_repository_info"
+        tools:layout="@layout/fragment_repository_info" >
+
+        <argument
+            android:name="OWNER" />
+        <argument
+            android:name="REPOSITORY"/>
+    </fragment>
+    <activity
+        android:id="@+id/conductorActivity"
+        android:name="ru.grakhell.userviewer.ui.activity.ConductorActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="ru.grakhell.userviewer.ui.fragments.startFragment.view.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_startFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment"
+            app:popUpTo="@+id/searchResultFragment" />
+    </fragment>
+</navigation>
