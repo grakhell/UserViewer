@@ -13,8 +13,10 @@ import android.provider.Settings
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.Navigation.findNavController
+import com.crashlytics.android.Crashlytics
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
+import io.fabric.sdk.android.Fabric
 import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.injection.scope.ActivityScope
 import ru.grakhell.userviewer.storage.local.UserViewerSuggestionProvider
@@ -37,6 +39,7 @@ class ConductorActivity @Inject constructor() : BaseActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+        Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbarMain))
         checkPermission()
