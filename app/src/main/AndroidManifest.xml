@@ -32,6 +32,9 @@
             android:authorities="ru.grakhell.userviewer.storage.local.UserViewerSuggestionProvider"
             android:name="ru.grakhell.userviewer.storage.local.UserViewerSuggestionProvider"
             android:exported="false"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="<fabric_api_key>" />
     </application>
 
 </manifest>

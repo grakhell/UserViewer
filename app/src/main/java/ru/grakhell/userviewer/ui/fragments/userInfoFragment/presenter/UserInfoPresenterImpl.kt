@@ -3,6 +3,7 @@ package ru.grakhell.userviewer.ui.fragments.userInfoFragment.presenter
 import android.accounts.NetworkErrorException
 import android.graphics.Color
 import android.os.Bundle
+import com.crashlytics.android.Crashlytics
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.experimental.async
@@ -22,6 +23,7 @@ import ru.grakhell.userviewer.ui.fragments.userInfoFragment.view.UserInfoReposit
 import ru.grakhell.userviewer.ui.fragments.userInfoFragment.view.UserInfoStarredReposRecyclerViewAdapter
 import ru.grakhell.userviewer.ui.fragments.userInfoFragment.view.UserInfoView
 import ru.grakhell.userviewer.util.NetworkUtil
+import ru.grakhell.userviewer.util.RxUtil
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -70,6 +72,7 @@ class UserInfoPresenterImpl @Inject constructor(
             )
         } catch (e: Exception) {
             Timber.e(e)
+            Crashlytics.logException(e)
             Snackbar.make(checkNotNull(mView?.getBaseView()),e.localizedMessage,
                 Snackbar.LENGTH_LONG)
                 .setDuration(6000)
@@ -87,7 +90,8 @@ class UserInfoPresenterImpl @Inject constructor(
                          adapter.submitList(list)
                          adapter.notifyDataSetChanged()
                      },
-                     { ex -> Timber.e(ex) })
+                     { ex -> Timber.e(ex)
+                         Crashlytics.logException(ex)})
              )}
 
     private fun setRepositoriesList() = async {
@@ -103,7 +107,8 @@ class UserInfoPresenterImpl @Inject constructor(
                         )
                         adapter.notifyDataSetChanged()
                     },
-                    { ex -> Timber.e(ex) })
+                    { ex -> Timber.e(ex)
+                        Crashlytics.logException(ex)})
             )}
 
     private fun setStarredRepoList() = async {
@@ -119,7 +124,8 @@ class UserInfoPresenterImpl @Inject constructor(
                         )
                         adapter.notifyDataSetChanged()
                     },
-                    { ex -> Timber.e(ex) })
+                    { ex -> Timber.e(ex)
+                        Crashlytics.logException(ex)})
             )}
 
     private fun onRepoClickListener(repository: GetUserRepoInfoQuery.Node){
@@ -133,5 +139,10 @@ class UserInfoPresenterImpl @Inject constructor(
     override fun onStart(savedInstanceState: Bundle?) {
         if (params.userName.isNotEmpty()) getUserInfo()
         super.onStart(savedInstanceState)
+    }
+
+    override fun onEnd() {
+        RxUtil.composedDispose(disposable)
+        super.onEnd()
     }
 }

@@ -13,6 +13,8 @@ import butterknife.BindDrawable
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
 import com.google.android.material.button.MaterialButton
 import net.cachapa.expandablelayout.ExpandableLayout
 import ru.grakhell.userviewer.R
@@ -148,6 +150,9 @@ class RepositoryInfoFragment @Inject constructor()
 
     @OnClick(R.id.btnLanguages)
     fun languagesOnClick(button: MaterialButton) {
+        Answers.getInstance().logCustom(
+            CustomEvent("On Expandable List Click")
+                .putCustomAttribute("Click","Languages List"))
         if(mLangExpList.isExpanded) {
             button.icon = downArrow
             mLangExpList.collapse(true)
@@ -168,6 +173,9 @@ class RepositoryInfoFragment @Inject constructor()
 
     @OnClick(R.id.btnBranches)
     fun branchesOnClick(button: MaterialButton) {
+        Answers.getInstance().logCustom(
+            CustomEvent("On Expandable List Click")
+                .putCustomAttribute("Click","Branches List"))
         if(mBranchesExpList.isExpanded) {
             button.icon = downArrow
             mBranchesExpList.collapse(true)
@@ -188,6 +196,9 @@ class RepositoryInfoFragment @Inject constructor()
 
     @OnClick(R.id.btnWatchers)
     fun watchersOnClick(button: MaterialButton) {
+        Answers.getInstance().logCustom(
+            CustomEvent("On Expandable List Click")
+                .putCustomAttribute("Click","Watchers List"))
         if(mWatchersExpList.isExpanded) {
             button.icon = downArrow
             mWatchersExpList.collapse(true)
@@ -208,6 +219,9 @@ class RepositoryInfoFragment @Inject constructor()
 
     @OnClick(R.id.btnStargazers)
     fun stargazersOnClick(button: MaterialButton) {
+        Answers.getInstance().logCustom(
+            CustomEvent("On Expandable List Click")
+                .putCustomAttribute("Click","Stargazers List"))
         if(mStargazersExpList.isExpanded) {
             button.icon = downArrow
             mStargazersExpList.collapse(true)

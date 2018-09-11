@@ -3,6 +3,7 @@ package ru.grakhell.userviewer.storage.source
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.apollographql.apollo.api.Response
+import com.crashlytics.android.Crashlytics
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.experimental.launch
 import ru.grakhell.userviewer.domain.entity.GetUserSearchResultQuery
@@ -41,13 +42,21 @@ class UserSearchResultDataSource constructor(
                                 mResponse.data()?.search()?.pageInfo()?.endCursor()
                             )
                             } else {
-                            mResponse.errors().forEach { x -> Timber.e(x.message()) }
-                                }
+                            mResponse.errors().forEach { y ->
+                                Timber.e(y.message())
+                                Crashlytics.log(y.message())
+                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                            }
+                        }
                         }
                     },
-                    { ex -> Timber.e(ex) }))
+                    { ex ->
+                        Timber.e(ex)
+                        Crashlytics.logException(ex)
+                    }))
             } catch (e: Exception) {
                 Timber.e(e)
+                Crashlytics.logException(e)
             }
         }
     }
@@ -76,13 +85,21 @@ class UserSearchResultDataSource constructor(
                                     mResponse.data()?.search()?.pageInfo()?.endCursor()
                                 )
                             } else {
-                                mResponse.errors().forEach { x -> Timber.e(x.message()) }
+                                mResponse.errors().forEach { y ->
+                                    Timber.e(y.message())
+                                    Crashlytics.log(y.message())
+                                    y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                }
                             }
                         }
                     },
-                    { ex -> Timber.e(ex) }))
+                    { ex ->
+                        Timber.e(ex)
+                        Crashlytics.logException(ex)
+                    }))
             } catch (e: Exception) {
                 Timber.e(e)
+                Crashlytics.logException(e)
             }
 
         }
