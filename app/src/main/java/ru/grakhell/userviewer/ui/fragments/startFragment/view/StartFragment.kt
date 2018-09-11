@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import ru.grakhell.userviewer.R
+import ru.grakhell.userviewer.ui.common.view.BaseView
+import ru.grakhell.userviewer.ui.fragments.startFragment.presenter.StartPresenter
 
-class StartFragment : DialogFragment() {
+class StartFragment : BaseView<StartPresenter>(), StartView {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
