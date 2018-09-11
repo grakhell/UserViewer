@@ -3,6 +3,7 @@ package ru.grakhell.userviewer.storage.source
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.apollographql.apollo.api.Response
+import com.crashlytics.android.Crashlytics
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.experimental.launch
 import ru.grakhell.userviewer.domain.entity.GetUserOrganisationInfoQuery
@@ -43,12 +44,20 @@ class UserOrganisationInfoDataSource constructor(
                                 mResponse.data()?.user()?.organizations()?.pageInfo()?.endCursor()
                             )
                         } else {
-                            mResponse.errors().forEach { y -> Timber.d(y.message()) }
+                            mResponse.errors().forEach { y ->
+                                Timber.d(y.message())
+                                Crashlytics.log(y.message())
+                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                            }
                         }
                     },
-                    { ex -> Timber.d(ex) }))
+                    { ex ->
+                        Timber.d(ex)
+                        Crashlytics.logException(ex)
+                    }))
             } catch (e: Exception) {
                 Timber.d(e)
+                Crashlytics.logException(e)
             }
         }
     }
@@ -75,12 +84,20 @@ class UserOrganisationInfoDataSource constructor(
                                 mResponse.data()?.user()?.organizations()?.pageInfo()?.endCursor()
                             )
                         } else {
-                            mResponse.errors().forEach { y -> Timber.d(y.message()) }
+                            mResponse.errors().forEach { y ->
+                                Timber.d(y.message())
+                                Crashlytics.log(y.message())
+                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                            }
                         }
                     },
-                    { ex -> Timber.d(ex) }))
+                    { ex ->
+                        Timber.d(ex)
+                        Crashlytics.logException(ex)
+                    }))
             } catch (e: Exception) {
                 Timber.d(e)
+                Crashlytics.logException(e)
             }
         }
     }

@@ -40,3 +40,7 @@ app/src/androidTest/
 app/src/test/
 
 app/src/main/graphql/ru/grakhell/githubusersearch/domain/entity/schema\.json\.old
+
+app/fabric\.properties
+
+fabric\.properties

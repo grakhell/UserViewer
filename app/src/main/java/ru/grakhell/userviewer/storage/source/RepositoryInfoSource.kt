@@ -1,6 +1,7 @@
 package ru.grakhell.userviewer.storage.source
 
 import com.apollographql.apollo.api.Response
+import com.crashlytics.android.Crashlytics
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -36,10 +37,14 @@ class RepositoryInfoSource(
                     } else {
                         mResponse.errors().forEach { y ->
                             Timber.d(y.message())
+                            Crashlytics.log(y.message())
+                            y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
                             publisher.onError(Exception(y.message()))
                         }
                     }},
-                { ex -> Timber.d(ex)
+                { ex ->
+                    Timber.d(ex)
+                    Crashlytics.logException(ex)
                     publisher.onError(ex)})
     }
 }

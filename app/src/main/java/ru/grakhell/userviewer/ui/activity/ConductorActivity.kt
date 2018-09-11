@@ -14,6 +14,9 @@ import android.view.Menu
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.Navigation.findNavController
 import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.ContentViewEvent
+import com.crashlytics.android.answers.SearchEvent
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import io.fabric.sdk.android.Fabric
@@ -23,6 +26,7 @@ import ru.grakhell.userviewer.storage.local.UserViewerSuggestionProvider
 import ru.grakhell.userviewer.ui.common.BaseActivity
 import ru.grakhell.userviewer.util.NetworkUtil
 import ru.grakhell.userviewer.util.ViewUtil
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -87,20 +91,34 @@ class ConductorActivity @Inject constructor() : BaseActivity(){
         = findNavController(this,R.id.nav_host_fragment).navigateUp()
 
     private fun search(query:String) {
-        if (NetworkUtil.isNetworkConnected(this)) {
-            val arg = Bundle()
-            arg.putString("USER_NAME", query)
-            getNavController().navigate(R.id.action_startFragment_to_searchResultFragment, arg)
-            ViewUtil.hideKeyboard(this)
-        }
-        else{
-            Snackbar.make(findViewById(R.id.mainLayout),R.string.net_error,Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.retry_string){_ -> kotlin.run {
-                    search(query)
-                }}
-                .setActionTextColor(Color.WHITE)
-                .show()
-            ViewUtil.hideKeyboard(this)
+        try {
+            if (NetworkUtil.isNetworkConnected(this)) {
+                Answers.getInstance().logSearch(
+                    SearchEvent()
+                        .putQuery(query)
+                )
+                val arg = Bundle()
+                arg.putString("USER_NAME", query)
+                getNavController().navigate(R.id.searchResultFragment, arg)
+                ViewUtil.hideKeyboard(this)
+            } else {
+                Snackbar.make(
+                    findViewById(R.id.mainLayout),
+                    R.string.net_error,
+                    Snackbar.LENGTH_INDEFINITE
+                )
+                    .setAction(R.string.retry_string) { _ ->
+                        kotlin.run {
+                            search(query)
+                        }
+                    }
+                    .setActionTextColor(Color.WHITE)
+                    .show()
+                ViewUtil.hideKeyboard(this)
+            }
+        }catch (e: Exception) {
+            Timber.e(e)
+            Crashlytics.logException(e)
         }
     }
 
@@ -126,18 +144,36 @@ class ConductorActivity @Inject constructor() : BaseActivity(){
     }
 
     fun showUser(user: String) {
-        val arg = Bundle()
-        arg.putString("USER_NAME", user)
-        getNavController().navigate(R.id.action_searchResultFragment_to_userInfoFragment, arg)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        try {
+            Answers.getInstance().logContentView(
+                ContentViewEvent()
+                    .putContentName(user)
+                    .putContentType("User Info")
+            )
+            val arg = Bundle()
+            arg.putString("USER_NAME", user)
+            getNavController().navigate(R.id.action_searchResultFragment_to_userInfoFragment, arg)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Crashlytics.logException(e)
+        }
     }
 
     fun showRepository(owner:String, name:String){
+        try {
+        Answers.getInstance().logContentView(ContentViewEvent()
+            .putContentName("Repository: $name with owner $owner")
+            .putContentType("Repository Info"))
         val arg = Bundle()
         arg.putString("OWNER", owner)
         arg.putString("REPOSITORY", name)
         getNavController().navigate(R.id.action_userInfoFragment_to_repositoryInfoFragment, arg)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Crashlytics.logException(e)
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)

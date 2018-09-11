@@ -13,6 +13,8 @@ import butterknife.BindDrawable
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
 import com.google.android.material.button.MaterialButton
 import net.cachapa.expandablelayout.ExpandableLayout
 import ru.grakhell.userviewer.R
@@ -142,6 +144,9 @@ class UserInfoFragment @Inject constructor()
 
     @OnClick(R.id.btnOrgs)
     fun organisationsOnClick(button: MaterialButton) {
+        Answers.getInstance().logCustom(
+            CustomEvent("On Expandable List Click")
+                .putCustomAttribute("Click","Organisations List"))
         if (mOrgExpList.isExpanded) {
             button.icon = downArrow
             mOrgExpList.collapse(true)
@@ -159,6 +164,9 @@ class UserInfoFragment @Inject constructor()
 
     @OnClick(R.id.btnRepos)
     fun repositoriesOnClick(button: MaterialButton) {
+        Answers.getInstance().logCustom(
+            CustomEvent("On Expandable List Click")
+                .putCustomAttribute("Click","Repositories List"))
         if (mRepoExpList.isExpanded) {
             button.icon = downArrow
             mRepoExpList.collapse(true)
@@ -177,6 +185,9 @@ class UserInfoFragment @Inject constructor()
 
     @OnClick(R.id.btnStRepos)
     fun starredReposOnClick(button: MaterialButton) {
+        Answers.getInstance().logCustom(
+            CustomEvent("On Expandable List Click")
+                .putCustomAttribute("Click","Starred repositories List"))
         if (mStrRepoExpList.isExpanded) {
             button.icon = downArrow
             mStrRepoExpList.collapse(true)

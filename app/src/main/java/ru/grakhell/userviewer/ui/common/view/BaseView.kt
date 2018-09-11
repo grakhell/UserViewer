@@ -29,9 +29,8 @@ abstract class BaseView<T: Presenter>: BaseFragment(), MVP {
         presenter.onPause()
     }
 
-    override fun onDestroyView() {
+    override fun onDetach() {
         presenter.onEnd()
-        super.onDestroyView()
-
+        super.onDetach()
     }
 }
