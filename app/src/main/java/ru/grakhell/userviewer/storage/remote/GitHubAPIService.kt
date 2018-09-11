@@ -30,7 +30,7 @@ class GitHubAPIService {
         private fun createOkHttpClient():OkHttpClient{
             return OkHttpClient.Builder()
                 .authenticator { _, response -> kotlin.run {
-                    val cred = Credentials.basic("bearer","add5f038eef0edf7eff6e079a6e97d1b439e9b59")
+                    val cred = Credentials.basic()
                     if (cred == response.request().header("Authorization")) return@run null
                     return@run response.request().newBuilder().header("Authorization",cred)
                         .build()}}
