@@ -8,6 +8,5 @@ class StartPresenterImpl @Inject constructor(
     view: StartView?
 ):BasePresenter<StartView>(view), StartPresenter {
 
-    private val BASE_URL:String = "https://api.github.com"
 
 }
