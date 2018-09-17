@@ -1,10 +1,10 @@
-package ru.grakhell.userviewer.auth
+package ru.grakhell.oauthlib.auth
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 
-class AuthService: Service() {
+class AuthService : Service() {
 
     private lateinit var mAuthenticator: AppAuthenticator
 
@@ -14,5 +14,5 @@ class AuthService: Service() {
         super.onCreate()
     }
 
-    override fun onBind(p0: Intent?): IBinder?  = mAuthenticator.iBinder
+    override fun onBind(p0: Intent?): IBinder? = mAuthenticator.iBinder
 }

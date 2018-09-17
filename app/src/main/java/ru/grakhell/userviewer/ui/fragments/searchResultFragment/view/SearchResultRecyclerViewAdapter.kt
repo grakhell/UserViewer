@@ -15,11 +15,11 @@ import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.domain.entity.GetUserSearchResultQuery
 import ru.grakhell.userviewer.injection.module.GlideApp
 
-class SearchResultRecyclerViewAdapter: PagedListAdapter<GetUserSearchResultQuery.AsUser,
+class SearchResultRecyclerViewAdapter : PagedListAdapter<GetUserSearchResultQuery.AsUser,
     SearchResultRecyclerViewAdapter.ViewHolder>
     (CALLBACK()) {
 
-    private val publisher:BehaviorSubject<GetUserSearchResultQuery.AsUser> = BehaviorSubject.create()
+    private val publisher: BehaviorSubject<GetUserSearchResultQuery.AsUser> = BehaviorSubject.create()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -32,7 +32,7 @@ class SearchResultRecyclerViewAdapter: PagedListAdapter<GetUserSearchResultQuery
         val item = getItem(position)
         with(holder.mView) {
             setOnClickListener {
-                  if (item!=null)publisher.onNext(item)
+                if (item != null)publisher.onNext(item)
             }
         }
     }
@@ -43,14 +43,13 @@ class SearchResultRecyclerViewAdapter: PagedListAdapter<GetUserSearchResultQuery
         init {
             ButterKnife.bind(this, mView)
         }
-        @BindView(R.id.tvLogin) lateinit var mLogin:TextView
-        @BindView(R.id.tvName) lateinit var mName:TextView
+        @BindView(R.id.tvLogin) lateinit var mLogin: TextView
+        @BindView(R.id.tvName) lateinit var mName: TextView
         @BindView(R.id.tvRepo) lateinit var mRepositories: TextView
-        @BindView(R.id.starCount) lateinit var mStarCount:TextView
-        @BindView(R.id.ivAvatar) lateinit var mAvatar:ImageView
+        @BindView(R.id.starCount) lateinit var mStarCount: TextView
+        @BindView(R.id.ivAvatar) lateinit var mAvatar: ImageView
 
-
-        fun bind(item: GetUserSearchResultQuery.AsUser?){
+        fun bind(item: GetUserSearchResultQuery.AsUser?) {
             if (item?.login() == null) {
                 mLogin.text = itemView.resources.getString(R.string.UserNoLogin)
             } else {
@@ -73,7 +72,7 @@ class SearchResultRecyclerViewAdapter: PagedListAdapter<GetUserSearchResultQuery
         }
     }
 
-    class CALLBACK: DiffUtil.ItemCallback<GetUserSearchResultQuery.AsUser>() {
+    class CALLBACK : DiffUtil.ItemCallback<GetUserSearchResultQuery.AsUser>() {
 
         override fun areContentsTheSame(
             oldItem: GetUserSearchResultQuery.AsUser,
@@ -84,7 +83,6 @@ class SearchResultRecyclerViewAdapter: PagedListAdapter<GetUserSearchResultQuery
         override fun areItemsTheSame(
             oldItem: GetUserSearchResultQuery.AsUser,
             newItem: GetUserSearchResultQuery.AsUser
-        ): Boolean  = oldItem.id() == newItem.id()
+        ): Boolean = oldItem.id() == newItem.id()
     }
 }
-

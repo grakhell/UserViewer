@@ -1,4 +1,4 @@
-package ru.grakhell.oauthlib
+package ru.grakhell.oauthlib.ui
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.OnClick
 import kotlinx.android.synthetic.main.credentials_fragment.*
+import ru.grakhell.oauthlib.R
 
 class CredentialsFragment : Fragment() {
 
@@ -15,7 +15,7 @@ class CredentialsFragment : Fragment() {
         fun newInstance() = CredentialsFragment()
     }
 
-    private lateinit var viewModel: CredentialsViewModel
+    private lateinit var viewModel: AuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +26,7 @@ class CredentialsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(CredentialsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

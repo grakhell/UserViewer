@@ -7,8 +7,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetBranchesInfo @Inject constructor(rep:Repository):BaseUseCase(rep) {
+class GetBranchesInfo @Inject constructor(rep: Repository) : BaseUseCase(rep) {
 
-    override fun execute(params: QueryParams)
-        = repo.getRepositoryBranchesData(params.userName,params.repositoryName)
+    override fun execute(params: QueryParams) =
+        repo.getRepositoryBranchesData(params.userName, params.repositoryName)
 }

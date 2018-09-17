@@ -9,18 +9,17 @@ import ru.grakhell.userviewer.UserViewerApplication
 import ru.grakhell.userviewer.injection.module.AppModule
 import javax.inject.Singleton
 
-
 @Singleton
 @Component(modules = [AppModule::class, AndroidSupportInjectionModule::class])
-interface AppComponent: AndroidInjector<UserViewerApplication> {
+interface AppComponent : AndroidInjector<UserViewerApplication> {
 
     fun inject(application: Application)
 
     @Component.Builder
-    interface Builder{
+    interface Builder {
         @BindsInstance
         fun app(application: Application): Builder
 
-        fun build():AppComponent
+        fun build(): AppComponent
     }
 }

@@ -4,8 +4,6 @@ import android.accounts.NetworkErrorException
 import android.graphics.Color
 import android.os.Bundle
 import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.answers.Answers
-import com.crashlytics.android.answers.CustomEvent
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.experimental.async
@@ -28,17 +26,17 @@ import ru.grakhell.userviewer.util.RxUtil
 import timber.log.Timber
 import javax.inject.Inject
 
-class  RepositoryInfoPresenterImpl @Inject constructor(
+class RepositoryInfoPresenterImpl @Inject constructor(
     private val mRepoSource: GetRepositoryInfo,
     private val mLangSource: GetLanguageInfo,
     private val mBranchesSource: GetBranchesInfo,
     private val mWatchersSource: GetWatchersInfo,
     private val mStargazersSource: GetStargazersInfo,
     view: RepositoryInfoView
-):BasePresenter<RepositoryInfoView>(view),RepositoryInfoPresenter{
+) : BasePresenter<RepositoryInfoView>(view), RepositoryInfoPresenter {
 
     private var disposable: CompositeDisposable = CompositeDisposable()
-    private var params:QueryParams = QueryParams()
+    private var params: QueryParams = QueryParams()
 
     override fun setRepositoryInfo(ownerName: String?, repositoryName: String?) {
         params.userName = checkNotNull(ownerName)
@@ -62,22 +60,22 @@ class  RepositoryInfoPresenterImpl @Inject constructor(
                                 setWatchersList().await() }
                             if (checkNotNull((item?.stargazers()?.totalCount()))>0) {
                                 setStargazersList().await() }
-                        }},
+                        } },
                     { ex -> Timber.e(ex)
-                            Snackbar.make(checkNotNull(mView?.getBaseView()),ex.localizedMessage,
-                                Snackbar.LENGTH_INDEFINITE)
-                                .setAction(R.string.cancel_string){
-                                    mView?.getParentActivity()?.getNavController()?.popBackStack()
-                                }
+                            mView?.getParentActivity()?.getNavController()?.navigateUp()
+                            Snackbar.make(checkNotNull(mView?.getBaseView()), ex.localizedMessage,
+                                Snackbar.LENGTH_LONG)
+                                .setDuration(6000)
+                                .setAction(R.string.ok_string) {}
                                 .setActionTextColor(Color.WHITE)
-                                .show()}))
-        }catch (e: Exception) {
+                                .show() }))
+        } catch (e: Exception) {
             Timber.e(e)
             Crashlytics.logException(e)
-            Snackbar.make(checkNotNull(mView?.getBaseView()),e.localizedMessage,
+            Snackbar.make(checkNotNull(mView?.getBaseView()), e.localizedMessage,
                 Snackbar.LENGTH_LONG)
                 .setDuration(6000)
-                .setAction(R.string.retry_string){ getRepositoryInfo() }
+                .setAction(R.string.retry_string) { getRepositoryInfo() }
                 .show()
         }
     }
@@ -92,32 +90,32 @@ class  RepositoryInfoPresenterImpl @Inject constructor(
                     adapter.notifyDataSetChanged()
                 },
                 { ex -> Timber.e(ex)
-                    Crashlytics.logException(ex)})
+                    Crashlytics.logException(ex) })
         )
     }
 
     private fun setBranchesList() = async {
         val adapter = RepositoryInfoBranchRecyclerViewAdapter()
-        mView?.getBranchesRecyclerView()?.swapAdapter(adapter,true)
+        mView?.getBranchesRecyclerView()?.swapAdapter(adapter, true)
         disposable.add(mBranchesSource.execute(params).subscribe(
-            {list ->
+            { list ->
                 adapter.submitList(list)
                 adapter.notifyDataSetChanged()
             },
-            {ex -> Timber.e(ex)
-                Crashlytics.logException(ex)}))
+            { ex -> Timber.e(ex)
+                Crashlytics.logException(ex) }))
     }
 
     private fun setWatchersList() = async {
         val adapter = RepositoryInfoWatcherRecyclerViewAdapter()
         mView?.getWatchersRecyclerView()?.swapAdapter(adapter, true)
         disposable.add(mWatchersSource.execute(params).subscribe(
-            {list ->
+            { list ->
                 adapter.submitList(list)
                 adapter.notifyDataSetChanged()
             },
-            {ex -> Timber.e(ex)
-                Crashlytics.logException(ex)}))
+            { ex -> Timber.e(ex)
+                Crashlytics.logException(ex) }))
     }
 
     private fun setStargazersList() = async {
@@ -128,8 +126,8 @@ class  RepositoryInfoPresenterImpl @Inject constructor(
                 adapter.submitList(list)
                 adapter.notifyDataSetChanged()
             },
-            {ex -> Timber.e(ex)
-                Crashlytics.logException(ex)}))
+            { ex -> Timber.e(ex)
+                Crashlytics.logException(ex) }))
     }
 
     override fun onStart(savedInstanceState: Bundle?) {

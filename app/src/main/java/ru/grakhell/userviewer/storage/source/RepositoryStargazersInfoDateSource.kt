@@ -12,14 +12,14 @@ import ru.grakhell.userviewer.util.RxUtil
 import timber.log.Timber
 
 class RepositoryStargazersInfoDateSource constructor(
-    private val mUserName:String,
-    private val mRepoName:String,
-    private var mRepository: RxObservableCreator)
+    private val mUserName: String,
+    private val mRepoName: String,
+    private var mRepository: RxObservableCreator
+)
     : PageKeyedDataSource<String, GetStargazersInfoQuery.Node>() {
 
-
     private lateinit var mResponse: Response<GetStargazersInfoQuery.Data>
-    private val disposable:CompositeDisposable = CompositeDisposable()
+    private lateinit var disposable: CompositeDisposable
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -27,8 +27,9 @@ class RepositoryStargazersInfoDateSource constructor(
     ) {
         launch {
             try {
-               disposable.add(mRepository.getStargazesInfoObservable(mUserName, params
-                .requestedLoadSize, null,mRepoName)
+                disposable = CompositeDisposable()
+                disposable.add(mRepository.getStargazesInfoObservable(mUserName, params
+                .requestedLoadSize, null, mRepoName)
                     .subscribe(
                         { x -> mResponse = checkNotNull(x)
                             if (!mResponse.hasErrors()) {
@@ -47,12 +48,12 @@ class RepositoryStargazersInfoDateSource constructor(
                                 mResponse.errors().forEach { y ->
                                     Timber.d(y.message())
                                     Crashlytics.log(y.message())
-                                    y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                    y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                                 }
-                            }},
+                            } },
                         { ex ->
                             Timber.d(ex)
-                            Crashlytics.logException(ex)}))
+                            Crashlytics.logException(ex) }))
             } catch (e: Exception) {
                 Timber.d(e)
                 Crashlytics.logException(e)
@@ -66,9 +67,9 @@ class RepositoryStargazersInfoDateSource constructor(
     ) {
         launch {
             try {
-               disposable.add(mRepository.getStargazesInfoObservable(mUserName, params
-                   .requestedLoadSize,
-                params.key,mRepoName)
+                disposable.add(mRepository.getStargazesInfoObservable(mUserName, params
+                    .requestedLoadSize,
+                    params.key, mRepoName)
                     .subscribe(
                         { x -> mResponse = checkNotNull(x)
                             if (!mResponse.hasErrors()) {
@@ -85,9 +86,9 @@ class RepositoryStargazersInfoDateSource constructor(
                                 mResponse.errors().forEach { y ->
                                     Timber.d(y.message())
                                     Crashlytics.log(y.message())
-                                    y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                    y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                                 }
-                            }},
+                            } },
                         { ex ->
                             Timber.d(ex)
                             Crashlytics.logException(ex)
@@ -113,8 +114,7 @@ class RepositoryStargazersInfoDateSource constructor(
         private val mUserName: String,
         private val mRepoName: String,
         private var mRepository: RxObservableCreator
-    ): DataSource.Factory<String, GetStargazersInfoQuery.Node>()
-    {
+    ) : DataSource.Factory<String, GetStargazersInfoQuery.Node>() {
         override fun create(): DataSource<String, GetStargazersInfoQuery.Node> {
             return RepositoryStargazersInfoDateSource(mUserName, mRepoName, mRepository)
         }

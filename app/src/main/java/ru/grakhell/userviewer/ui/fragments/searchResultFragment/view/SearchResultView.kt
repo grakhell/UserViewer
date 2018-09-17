@@ -5,8 +5,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ru.grakhell.userviewer.ui.activity.ConductorActivity
 import ru.grakhell.userviewer.ui.common.view.MVP
 
-interface SearchResultView:MVP {
+interface SearchResultView : MVP {
     fun getRecyclerView(): RecyclerView
     fun getRefreshLayout(): SwipeRefreshLayout
-    fun getParentActivity():ConductorActivity
+    fun getParentActivity(): ConductorActivity
 }

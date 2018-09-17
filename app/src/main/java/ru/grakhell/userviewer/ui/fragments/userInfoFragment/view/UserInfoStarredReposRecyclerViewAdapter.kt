@@ -13,7 +13,7 @@ import io.reactivex.subjects.BehaviorSubject
 import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.domain.entity.GetUserStarredRepoInfoQuery
 
-class UserInfoStarredReposRecyclerViewAdapter: PagedListAdapter<GetUserStarredRepoInfoQuery.Node,
+class UserInfoStarredReposRecyclerViewAdapter : PagedListAdapter<GetUserStarredRepoInfoQuery.Node,
     UserInfoStarredReposRecyclerViewAdapter.ViewHolder>(CALLBACK()) {
 
     private val publisher: BehaviorSubject<GetUserStarredRepoInfoQuery.Node> = BehaviorSubject.create()
@@ -29,29 +29,29 @@ class UserInfoStarredReposRecyclerViewAdapter: PagedListAdapter<GetUserStarredRe
         holder.bind(item)
         with(holder.mView) {
             setOnClickListener {
-                if (item!=null)publisher.onNext(item)
+                if (item != null)publisher.onNext(item)
             }
         }
     }
 
     fun getClickedItems() = publisher
 
-    inner class ViewHolder(val mView: View):RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         init {
             ButterKnife.bind(this, mView)
         }
-        @BindView(R.id.tvName) lateinit var mName:TextView
-        @BindView(R.id.tvDesc) lateinit var mDesc:TextView
-        @BindView(R.id.tvOwner) lateinit var mOwner:TextView
+        @BindView(R.id.tvName) lateinit var mName: TextView
+        @BindView(R.id.tvDesc) lateinit var mDesc: TextView
+        @BindView(R.id.tvOwner) lateinit var mOwner: TextView
 
         fun bind(item: GetUserStarredRepoInfoQuery.Node?) {
-            mName.text = item?.name()?:itemView.resources.getString(R.string.emptyname)
-            mDesc.text = item?.description()?:itemView.resources.getString(R.string.emptydesc)
-            mOwner.text = item?.owner()?.login()?:itemView.resources.getString(R.string.emptyowner)
+            mName.text = item?.name() ?: itemView.resources.getString(R.string.emptyname)
+            mDesc.text = item?.description() ?: itemView.resources.getString(R.string.emptydesc)
+            mOwner.text = item?.owner()?.login() ?: itemView.resources.getString(R.string.emptyowner)
         }
     }
 
-    class CALLBACK: DiffUtil.ItemCallback<GetUserStarredRepoInfoQuery.Node>() {
+    class CALLBACK : DiffUtil.ItemCallback<GetUserStarredRepoInfoQuery.Node>() {
 
         override fun areContentsTheSame(
             oldItem: GetUserStarredRepoInfoQuery.Node,
@@ -62,6 +62,6 @@ class UserInfoStarredReposRecyclerViewAdapter: PagedListAdapter<GetUserStarredRe
         override fun areItemsTheSame(
             oldItem: GetUserStarredRepoInfoQuery.Node,
             newItem: GetUserStarredRepoInfoQuery.Node
-        ): Boolean  = oldItem.id() == newItem.id()
+        ): Boolean = oldItem.id() == newItem.id()
     }
 }

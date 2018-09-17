@@ -7,8 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetUserSearchResult @Inject constructor(rep: Repository):BaseUseCase(rep) {
+class GetUserSearchResult @Inject constructor(rep: Repository) : BaseUseCase(rep) {
 
     override fun execute(params: QueryParams) = repo.getUserSearchResultData(params.userName)
-
 }

@@ -12,12 +12,13 @@ import ru.grakhell.userviewer.util.RxUtil
 import timber.log.Timber
 
 class UserSearchResultDataSource constructor(
-       private val mName: String,
-       private val mRepository: RxObservableCreator)
-    :PageKeyedDataSource<String,GetUserSearchResultQuery.AsUser>() {
+    private val mName: String,
+    private val mRepository: RxObservableCreator
+)
+    : PageKeyedDataSource<String, GetUserSearchResultQuery.AsUser>() {
 
-    private lateinit var mResponse:Response<GetUserSearchResultQuery.Data>
-    private var disposable: CompositeDisposable = CompositeDisposable()
+    private lateinit var mResponse: Response<GetUserSearchResultQuery.Data>
+    private lateinit var disposable: CompositeDisposable
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -25,35 +26,35 @@ class UserSearchResultDataSource constructor(
     ) {
         launch {
             try {
-                disposable.add(mRepository.getUserSearchResultObservable(mName, params.requestedLoadSize, null)
+                disposable = CompositeDisposable()
+                disposable.add(mRepository.getUserSearchResultObservable(mName,
+                    params.requestedLoadSize, null)
                     .subscribe(
-                    { x ->
-                        run{mResponse = checkNotNull(x)
-                        if (!mResponse.hasErrors()) {
-                            val items = checkNotNull(mResponse.data()
-                                ?.search()
-                                ?.edges()
-                                ?.map { x -> x.node() }
-                                ?.map { x -> x  as GetUserSearchResultQuery.AsUser }
-                                ?.toMutableList())
-                            callback.onResult(
-                                items,
-                                mResponse.data()?.search()?.pageInfo()?.startCursor(),
-                                mResponse.data()?.search()?.pageInfo()?.endCursor()
-                            )
-                            } else {
-                            mResponse.errors().forEach { y ->
-                                Timber.e(y.message())
-                                Crashlytics.log(y.message())
-                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
-                            }
-                        }
-                        }
-                    },
-                    { ex ->
-                        Timber.e(ex)
-                        Crashlytics.logException(ex)
-                    }))
+                        { x ->
+                            run { mResponse = checkNotNull(x)
+                                if (!mResponse.hasErrors()) {
+                                    val items = checkNotNull(mResponse.data()
+                                        ?.search()
+                                        ?.edges()
+                                        ?.map { x -> x.node() }
+                                        ?.map { x -> x as GetUserSearchResultQuery.AsUser }
+                                        ?.toMutableList())
+                                    callback.onResult(
+                                        items,
+                                        mResponse.data()?.search()?.pageInfo()?.startCursor(),
+                                        mResponse.data()?.search()?.pageInfo()?.endCursor())
+                                } else {
+                                    mResponse.errors().forEach { y ->
+                                        Timber.e(y.message())
+                                        Crashlytics.log(y.message())
+                                        y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
+                                    }
+                                }
+                            } },
+                        { ex ->
+                            Timber.e(ex)
+                            Crashlytics.logException(ex)
+                        }))
             } catch (e: Exception) {
                 Timber.e(e)
                 Crashlytics.logException(e)
@@ -67,28 +68,27 @@ class UserSearchResultDataSource constructor(
     ) {
         launch {
             try {
-               disposable.add(mRepository.getUserSearchResultObservable(
-                   mName,
-                   params.requestedLoadSize,
-                   params.key).subscribe(
+                disposable.add(mRepository.getUserSearchResultObservable(
+                    mName,
+                    params.requestedLoadSize,
+                    params.key).subscribe(
                     { x ->
-                        run{mResponse = checkNotNull(x)
+                        run { mResponse = checkNotNull(x)
                             if (!mResponse.hasErrors()) {
                                 val items = checkNotNull(mResponse.data()
                                     ?.search()
                                     ?.edges()
                                     ?.map { x -> x.node() }
-                                    ?.map { x -> x  as GetUserSearchResultQuery.AsUser}
+                                    ?.map { x -> x as GetUserSearchResultQuery.AsUser }
                                     ?.toMutableList())
                                 callback.onResult(
                                     items,
-                                    mResponse.data()?.search()?.pageInfo()?.endCursor()
-                                )
+                                    mResponse.data()?.search()?.pageInfo()?.endCursor())
                             } else {
                                 mResponse.errors().forEach { y ->
                                     Timber.e(y.message())
                                     Crashlytics.log(y.message())
-                                    y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                    y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                                 }
                             }
                         }
@@ -101,7 +101,6 @@ class UserSearchResultDataSource constructor(
                 Timber.e(e)
                 Crashlytics.logException(e)
             }
-
         }
     }
 
@@ -118,11 +117,9 @@ class UserSearchResultDataSource constructor(
         class DataSourceFactory(
             private val mName: String,
             private val mRepository: RxObservableCreator
-    ):DataSource.Factory<String,GetUserSearchResultQuery.AsUser>()
-    {
+        ) : DataSource.Factory<String, GetUserSearchResultQuery.AsUser>() {
         override fun create(): DataSource<String, GetUserSearchResultQuery.AsUser> {
             return UserSearchResultDataSource(mName, mRepository)
         }
     }
-
 }

@@ -12,14 +12,14 @@ import ru.grakhell.userviewer.util.RxUtil
 import timber.log.Timber
 
 class RepositoryLangInfoDataSource constructor(
-    private val mUserName:String,
-    private val mRepoName:String,
-    private val mRepository: RxObservableCreator)
+    private val mUserName: String,
+    private val mRepoName: String,
+    private val mRepository: RxObservableCreator
+)
     : PageKeyedDataSource<String, GetLanguageInfoQuery.Node>() {
 
-
     private lateinit var mResponse: Response<GetLanguageInfoQuery.Data>
-    private val disposable:CompositeDisposable = CompositeDisposable()
+    private lateinit var disposable: CompositeDisposable
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -27,8 +27,9 @@ class RepositoryLangInfoDataSource constructor(
     ) {
         launch {
             try {
+                disposable = CompositeDisposable()
                 disposable.add(mRepository.getLanguageInfoObservable(mUserName, params
-                    .requestedLoadSize, null,mRepoName)
+                    .requestedLoadSize, null, mRepoName)
                     .subscribe(
                         { x -> mResponse = checkNotNull(x)
                             if (!mResponse.hasErrors()) {
@@ -47,12 +48,12 @@ class RepositoryLangInfoDataSource constructor(
                                 mResponse.errors().forEach { y ->
                                     Timber.d(y.message())
                                     Crashlytics.log(y.message())
-                                    y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                    y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                                 }
-                            }},
+                            } },
                         { ex ->
                             Timber.d(ex)
-                            Crashlytics.logException(ex)}))
+                            Crashlytics.logException(ex) }))
             } catch (e: Exception) {
                 Timber.d(e)
                 Crashlytics.logException(e)
@@ -67,7 +68,7 @@ class RepositoryLangInfoDataSource constructor(
         launch {
             try {
                 disposable.add(mRepository.getLanguageInfoObservable(mUserName, params
-                    .requestedLoadSize, params.key,mRepoName)
+                    .requestedLoadSize, params.key, mRepoName)
                     .subscribe(
                         { x -> mResponse = checkNotNull(x)
                             if (!mResponse.hasErrors()) {
@@ -84,12 +85,12 @@ class RepositoryLangInfoDataSource constructor(
                                 mResponse.errors().forEach {
                                         y -> Timber.d(y.message())
                                     Crashlytics.log(y.message())
-                                    y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                    y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                                 }
-                            }},
+                            } },
                         { ex ->
                             Timber.d(ex)
-                            Crashlytics.logException(ex)}))
+                            Crashlytics.logException(ex) }))
             } catch (e: Exception) {
                 Timber.d(e)
                 Crashlytics.logException(e)
@@ -111,8 +112,7 @@ class RepositoryLangInfoDataSource constructor(
         private val mUserName: String,
         private val mRepoName: String,
         private val mRepository: RxObservableCreator
-    ): DataSource.Factory<String, GetLanguageInfoQuery.Node>()
-    {
+    ) : DataSource.Factory<String, GetLanguageInfoQuery.Node>() {
         override fun create(): DataSource<String, GetLanguageInfoQuery.Node> {
             return RepositoryLangInfoDataSource(mUserName, mRepoName, mRepository)
         }

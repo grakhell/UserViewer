@@ -16,10 +16,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class QueryManager @Inject constructor():GitApiQueries{
+class QueryManager @Inject constructor() : GitApiQueries {
 
-    override fun getUserSearchResult(name:String, count:Int, cursor:String?):
-        ApolloCall<GetUserSearchResultQuery.Data>{
+    override fun getUserSearchResult(name: String, count: Int, cursor: String?):
+        ApolloCall<GetUserSearchResultQuery.Data> {
             return GitHubAPIService.getClient().query(
                 GetUserSearchResultQuery.builder()
                 .owner_name(name)
@@ -29,8 +29,8 @@ class QueryManager @Inject constructor():GitApiQueries{
                 .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
         }
 
-    override fun getUserOrganisationInfo(name:String, count:Int, cursor:String?):
-        ApolloCall<GetUserOrganisationInfoQuery.Data>{
+    override fun getUserOrganisationInfo(name: String, count: Int, cursor: String?):
+        ApolloCall<GetUserOrganisationInfoQuery.Data> {
             return GitHubAPIService.getClient().query(
                 GetUserOrganisationInfoQuery.builder()
                     .user_name(name)
@@ -40,9 +40,9 @@ class QueryManager @Inject constructor():GitApiQueries{
                 .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
         }
 
-    override fun getUserStarredRepoInfo(name:String, count:Int, cursor:String?):
-        ApolloCall<GetUserStarredRepoInfoQuery.Data>{
-            return  GitHubAPIService.getClient().query(
+    override fun getUserStarredRepoInfo(name: String, count: Int, cursor: String?):
+        ApolloCall<GetUserStarredRepoInfoQuery.Data> {
+            return GitHubAPIService.getClient().query(
                 GetUserStarredRepoInfoQuery.builder()
                     .user_name(name)
                     .count(count)
@@ -51,8 +51,8 @@ class QueryManager @Inject constructor():GitApiQueries{
                 .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
         }
 
-    override fun getUserRepoInfo(name:String, count:Int, cursor:String?):
-        ApolloCall<GetUserRepoInfoQuery.Data>{
+    override fun getUserRepoInfo(name: String, count: Int, cursor: String?):
+        ApolloCall<GetUserRepoInfoQuery.Data> {
             return GitHubAPIService.getClient().query(
                 GetUserRepoInfoQuery.builder()
                     .user_name(name)
@@ -71,8 +71,8 @@ class QueryManager @Inject constructor():GitApiQueries{
             .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
     }
 
-    override fun getBranchesInfo(name:String, count:Int, cursor:String?, repositoryName:String):
-        ApolloCall<GetBranchesInfoQuery.Data>{
+    override fun getBranchesInfo(name: String, count: Int, cursor: String?, repositoryName: String):
+        ApolloCall<GetBranchesInfoQuery.Data> {
             return GitHubAPIService.getClient().query(
                 GetBranchesInfoQuery.builder()
                     .owner_name(name)
@@ -83,8 +83,8 @@ class QueryManager @Inject constructor():GitApiQueries{
                 .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
         }
 
-    override fun getLanguageInfo(name:String, count:Int, cursor:String?, repositoryName:String):
-        ApolloCall<GetLanguageInfoQuery.Data>{
+    override fun getLanguageInfo(name: String, count: Int, cursor: String?, repositoryName: String):
+        ApolloCall<GetLanguageInfoQuery.Data> {
             return GitHubAPIService.getClient().query(
                 GetLanguageInfoQuery.builder()
                     .owner_name(name)
@@ -95,8 +95,8 @@ class QueryManager @Inject constructor():GitApiQueries{
                 .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
         }
 
-    override fun getRepositoryInfo(name:String,  repositoryName:String):
-        ApolloCall<GetRepositoryInfoQuery.Data>{
+    override fun getRepositoryInfo(name: String, repositoryName: String):
+        ApolloCall<GetRepositoryInfoQuery.Data> {
             return GitHubAPIService.getClient().query(
                 GetRepositoryInfoQuery.builder()
                     .owner_name(name)
@@ -105,8 +105,8 @@ class QueryManager @Inject constructor():GitApiQueries{
                 .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
         }
 
-    override fun getStargazesInfo(name:String, count:Int, cursor:String?, repositoryName:String):
-        ApolloCall<GetStargazersInfoQuery.Data>{
+    override fun getStargazesInfo(name: String, count: Int, cursor: String?, repositoryName: String):
+        ApolloCall<GetStargazersInfoQuery.Data> {
             return GitHubAPIService.getClient().query(
                 GetStargazersInfoQuery.builder()
                     .owner_name(name)
@@ -117,8 +117,8 @@ class QueryManager @Inject constructor():GitApiQueries{
                 .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
         }
 
-    override fun getWatcherInfo(name:String, count:Int, cursor:String?, repositoryName:String):
-        ApolloCall<GetWatchersInfoQuery.Data>{
+    override fun getWatcherInfo(name: String, count: Int, cursor: String?, repositoryName: String):
+        ApolloCall<GetWatchersInfoQuery.Data> {
             return GitHubAPIService.getClient().query(
                 GetWatchersInfoQuery.builder()
                     .owner_name(name)

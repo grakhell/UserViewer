@@ -12,15 +12,13 @@ import ru.grakhell.userviewer.util.RxUtil
 import timber.log.Timber
 
 class UserOrganisationInfoDataSource constructor(
-        private val mName:String,
-    private val mRepository: RxObservableCreator)
-    :PageKeyedDataSource<String, GetUserOrganisationInfoQuery.Node>() {
+    private val mName: String,
+    private val mRepository: RxObservableCreator
+)
+    : PageKeyedDataSource<String, GetUserOrganisationInfoQuery.Node>() {
 
-
-
-    private lateinit var mResponse:Response<GetUserOrganisationInfoQuery.Data>
-    private var disposable: CompositeDisposable = CompositeDisposable()
-
+    private lateinit var mResponse: Response<GetUserOrganisationInfoQuery.Data>
+    private lateinit var disposable: CompositeDisposable
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -28,6 +26,7 @@ class UserOrganisationInfoDataSource constructor(
     ) {
         launch {
             try {
+                disposable = CompositeDisposable()
                 disposable.add(mRepository.getUserOrganisationInfoObservable(mName,
                     params.requestedLoadSize, null).subscribe(
                     { x -> mResponse = checkNotNull(x)
@@ -47,7 +46,7 @@ class UserOrganisationInfoDataSource constructor(
                             mResponse.errors().forEach { y ->
                                 Timber.d(y.message())
                                 Crashlytics.log(y.message())
-                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                             }
                         }
                     },
@@ -87,7 +86,7 @@ class UserOrganisationInfoDataSource constructor(
                             mResponse.errors().forEach { y ->
                                 Timber.d(y.message())
                                 Crashlytics.log(y.message())
-                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                             }
                         }
                     },
@@ -115,8 +114,7 @@ class UserOrganisationInfoDataSource constructor(
     class DataSourceFactory(
         private val mName: String,
         private val mRepository: RxObservableCreator
-    ): DataSource.Factory<String, GetUserOrganisationInfoQuery.Node>()
-    {
+    ) : DataSource.Factory<String, GetUserOrganisationInfoQuery.Node>() {
         override fun create(): DataSource<String, GetUserOrganisationInfoQuery.Node> {
             return UserOrganisationInfoDataSource(mName, mRepository)
         }

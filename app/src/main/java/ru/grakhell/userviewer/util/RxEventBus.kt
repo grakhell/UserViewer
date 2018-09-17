@@ -7,11 +7,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RxEventBus @Inject constructor(){
+class RxEventBus @Inject constructor() {
     private val mBackpressureStrategy = BackpressureStrategy.BUFFER
-    private val mBusSubject:PublishSubject<Any> = PublishSubject.create()
+    private val mBusSubject: PublishSubject<Any> = PublishSubject.create()
 
-    fun post(event:Any){
+    fun post(event: Any) {
         mBusSubject.onNext(event)
     }
 

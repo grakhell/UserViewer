@@ -17,14 +17,13 @@ import javax.inject.Singleton
 @Module
 abstract class AppModule {
 
+    @Binds
+    @Singleton
+    abstract fun application(application: Application): Application
 
     @Binds
     @Singleton
-    abstract fun application(application: Application):Application
-
-    @Binds
-    @Singleton
-    abstract fun appContext(application: Application):Context
+    abstract fun appContext(application: Application): Context
 
     @Binds
     @Singleton
@@ -32,7 +31,7 @@ abstract class AppModule {
 
     @Binds
     @Singleton
-    abstract fun queryManager(queryManager: QueryManager):GitApiQueries
+    abstract fun queryManager(queryManager: QueryManager): GitApiQueries
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [ConductorActivityModule::class])

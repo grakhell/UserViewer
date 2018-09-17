@@ -37,23 +37,23 @@ class UserInfoFragment @Inject constructor()
     @BindView(R.id.tvEmail) lateinit var mEmail: TextView
 
     @BindView(R.id.tvOrganisations) lateinit var mOrganisations: TextView
-    @BindView(R.id.tvRepo) lateinit var mRepos:TextView
-    @BindView(R.id.tvStarredRepo) lateinit var mStarredRepos:TextView
+    @BindView(R.id.tvRepo) lateinit var mRepos: TextView
+    @BindView(R.id.tvStarredRepo) lateinit var mStarredRepos: TextView
 
-    @BindView(R.id.orgExpView) lateinit var mOrgExpList:ExpandableLayout
-    @BindView(R.id.strRepoExpView) lateinit var mStrRepoExpList:ExpandableLayout
-    @BindView(R.id.repoExpView) lateinit var mRepoExpList:ExpandableLayout
+    @BindView(R.id.orgExpView) lateinit var mOrgExpList: ExpandableLayout
+    @BindView(R.id.strRepoExpView) lateinit var mStrRepoExpList: ExpandableLayout
+    @BindView(R.id.repoExpView) lateinit var mRepoExpList: ExpandableLayout
 
-    @BindView(R.id.btnOrgs) lateinit var btnOrganisations:MaterialButton
-    @BindView(R.id.btnRepos) lateinit var btnRepositories:MaterialButton
-    @BindView(R.id.btnStRepos) lateinit var btnStarredRepos:MaterialButton
+    @BindView(R.id.btnOrgs) lateinit var btnOrganisations: MaterialButton
+    @BindView(R.id.btnRepos) lateinit var btnRepositories: MaterialButton
+    @BindView(R.id.btnStRepos) lateinit var btnStarredRepos: MaterialButton
 
-    @BindView(R.id.organisationsList) lateinit var rvOrganisations:RecyclerView
-    @BindView(R.id.reposList) lateinit var rvRepositories:RecyclerView
-    @BindView(R.id.starredRepoList) lateinit var rvStarredRepos:RecyclerView
+    @BindView(R.id.organisationsList) lateinit var rvOrganisations: RecyclerView
+    @BindView(R.id.reposList) lateinit var rvRepositories: RecyclerView
+    @BindView(R.id.starredRepoList) lateinit var rvStarredRepos: RecyclerView
 
-    @BindDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24px) lateinit var downArrow:Drawable
-    @BindDrawable(R.drawable.ic_baseline_keyboard_arrow_up_24px) lateinit var upArrow:Drawable
+    @BindDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24px) lateinit var downArrow: Drawable
+    @BindDrawable(R.drawable.ic_baseline_keyboard_arrow_up_24px) lateinit var upArrow: Drawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +63,8 @@ class UserInfoFragment @Inject constructor()
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_info, container, false)
@@ -71,10 +72,9 @@ class UserInfoFragment @Inject constructor()
         return view
     }
 
-
     override fun showData(user: GetUserInfoQuery.User) {
         mLogin.text = user.login()
-        if (user.name() == null|| user.name()?.length == 0) {
+        if (user.name() == null || user.name()?.length == 0) {
             mName.text = resources.getString(R.string.UserNoName)
         } else {
             mName.text = String.format(resources.getString(R.string.UserName),
@@ -146,19 +146,19 @@ class UserInfoFragment @Inject constructor()
     fun organisationsOnClick(button: MaterialButton) {
         Answers.getInstance().logCustom(
             CustomEvent("On Expandable List Click")
-                .putCustomAttribute("Click","Organisations List"))
+                .putCustomAttribute("Click", "Organisations List"))
         if (mOrgExpList.isExpanded) {
             button.icon = downArrow
             mOrgExpList.collapse(true)
-        } else{
+        } else {
             button.icon = upArrow
             mOrgExpList.expand(true)
-            if (mRepoExpList.isExpanded){
-            btnRepositories.icon= downArrow
-            mRepoExpList.collapse(true)}
+            if (mRepoExpList.isExpanded) {
+            btnRepositories.icon = downArrow
+            mRepoExpList.collapse(true) }
             if (mStrRepoExpList.isExpanded) {
             mStrRepoExpList.collapse(true)
-            btnStarredRepos.icon = downArrow}
+            btnStarredRepos.icon = downArrow }
         }
     }
 
@@ -166,20 +166,19 @@ class UserInfoFragment @Inject constructor()
     fun repositoriesOnClick(button: MaterialButton) {
         Answers.getInstance().logCustom(
             CustomEvent("On Expandable List Click")
-                .putCustomAttribute("Click","Repositories List"))
+                .putCustomAttribute("Click", "Repositories List"))
         if (mRepoExpList.isExpanded) {
             button.icon = downArrow
             mRepoExpList.collapse(true)
-        } else{
+        } else {
             button.icon = upArrow
             mRepoExpList.expand(true)
-            if (mOrgExpList.isExpanded){
+            if (mOrgExpList.isExpanded) {
             mOrgExpList.collapse(true)
-            btnOrganisations.icon = downArrow}
-            if (mStrRepoExpList.isExpanded){
+            btnOrganisations.icon = downArrow }
+            if (mStrRepoExpList.isExpanded) {
             mStrRepoExpList.collapse(true)
-            btnStarredRepos.icon = downArrow}
-
+            btnStarredRepos.icon = downArrow }
         }
     }
 
@@ -187,19 +186,19 @@ class UserInfoFragment @Inject constructor()
     fun starredReposOnClick(button: MaterialButton) {
         Answers.getInstance().logCustom(
             CustomEvent("On Expandable List Click")
-                .putCustomAttribute("Click","Starred repositories List"))
+                .putCustomAttribute("Click", "Starred repositories List"))
         if (mStrRepoExpList.isExpanded) {
             button.icon = downArrow
             mStrRepoExpList.collapse(true)
-        } else{
+        } else {
             button.icon = upArrow
             mStrRepoExpList.expand(true)
-            if (mOrgExpList.isExpanded){
+            if (mOrgExpList.isExpanded) {
             btnOrganisations.icon = downArrow
-            mOrgExpList.collapse(true)}
-            if (mRepoExpList.isExpanded){
+            mOrgExpList.collapse(true) }
+            if (mRepoExpList.isExpanded) {
             btnRepositories.icon = downArrow
-            mRepoExpList.collapse(true)}
+            mRepoExpList.collapse(true) }
         }
     }
 }

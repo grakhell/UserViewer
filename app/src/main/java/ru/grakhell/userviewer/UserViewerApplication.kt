@@ -9,9 +9,7 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
 
-
-
-class UserViewerApplication: Application(), HasActivityInjector {
+class UserViewerApplication : Application(), HasActivityInjector {
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Activity>
@@ -28,7 +26,6 @@ class UserViewerApplication: Application(), HasActivityInjector {
         DaggerAppComponent.builder()
                 .app(this)
                 .build().inject(this)
-
     }
 
     override fun activityInjector(): DispatchingAndroidInjector<Activity> = androidInjector

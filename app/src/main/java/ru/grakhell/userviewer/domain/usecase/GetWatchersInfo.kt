@@ -7,9 +7,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetWatchersInfo @Inject constructor(rep: Repository):BaseUseCase(rep){
+class GetWatchersInfo @Inject constructor(rep: Repository) : BaseUseCase(rep) {
 
-    override fun execute(params: QueryParams)
-        = repo.getRepositoryWatchersData(params.userName,params.repositoryName)
-
+    override fun execute(params: QueryParams) =
+        repo.getRepositoryWatchersData(params.userName, params.repositoryName)
 }

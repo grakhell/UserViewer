@@ -15,12 +15,12 @@ import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-abstract class BaseFragment: DialogFragment(), HasSupportFragmentInjector {
+abstract class BaseFragment : DialogFragment(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
 
-    private var viewUnbinder:Unbinder? = null
+    private var viewUnbinder: Unbinder? = null
 
     @SuppressWarnings("deprecation")
     override fun onAttach(activity: Activity?) {
@@ -29,7 +29,7 @@ abstract class BaseFragment: DialogFragment(), HasSupportFragmentInjector {
     }
 
     override fun onAttach(context: Context?) {
-        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M) AndroidSupportInjection.inject(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 
@@ -46,13 +46,13 @@ abstract class BaseFragment: DialogFragment(), HasSupportFragmentInjector {
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = childFragmentInjector
 
-    protected fun addChildFragment(@IdRes containerViewId:Int, fragment: Fragment) {
+    protected fun addChildFragment(@IdRes containerViewId: Int, fragment: Fragment) {
         childFragmentManager.beginTransaction()
             .add(containerViewId, fragment)
             .commit()
     }
 
-    protected fun replaceChildFragment(@IdRes containerViewId:Int, fragment: Fragment) {
+    protected fun replaceChildFragment(@IdRes containerViewId: Int, fragment: Fragment) {
         childFragmentManager.beginTransaction()
             .replace(containerViewId, fragment)
             .commit()

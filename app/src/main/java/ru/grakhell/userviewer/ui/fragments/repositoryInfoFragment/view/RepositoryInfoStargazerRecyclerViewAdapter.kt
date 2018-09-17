@@ -14,7 +14,7 @@ import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.domain.entity.GetStargazersInfoQuery
 import ru.grakhell.userviewer.injection.module.GlideApp
 
-class RepositoryInfoStargazerRecyclerViewAdapter: PagedListAdapter<GetStargazersInfoQuery.Node,
+class RepositoryInfoStargazerRecyclerViewAdapter : PagedListAdapter<GetStargazersInfoQuery.Node,
     RepositoryInfoStargazerRecyclerViewAdapter.ViewHolder>(CALLBACK()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,12 +29,12 @@ class RepositoryInfoStargazerRecyclerViewAdapter: PagedListAdapter<GetStargazers
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         init {
-            ButterKnife.bind(this,mView)
+            ButterKnife.bind(this, mView)
         }
 
         @BindView(R.id.tvName) lateinit var mName: TextView
-        @BindView(R.id.tvLogin) lateinit var mLogin:TextView
-        @BindView(R.id.ivAvatar) lateinit var mAvatar:ImageView
+        @BindView(R.id.tvLogin) lateinit var mLogin: TextView
+        @BindView(R.id.ivAvatar) lateinit var mAvatar: ImageView
 
         fun bind(item: GetStargazersInfoQuery.Node?) {
             mLogin.text = item?.login() ?: itemView.resources.getString(R.string.emptylogin)
@@ -42,7 +42,6 @@ class RepositoryInfoStargazerRecyclerViewAdapter: PagedListAdapter<GetStargazers
             GlideApp.with(mView)
                 .load(item?.avatarUrl())
                 .into(mAvatar)
-
         }
     }
 

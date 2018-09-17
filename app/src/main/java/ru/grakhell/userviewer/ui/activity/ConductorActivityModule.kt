@@ -11,6 +11,8 @@ import ru.grakhell.userviewer.ui.fragments.repositoryInfoFragment.view.Repositor
 import ru.grakhell.userviewer.ui.fragments.repositoryInfoFragment.view.RepositoryInfoFragmentModule
 import ru.grakhell.userviewer.ui.fragments.searchResultFragment.view.SearchResultFragment
 import ru.grakhell.userviewer.ui.fragments.searchResultFragment.view.SearchResultFragmentModule
+import ru.grakhell.userviewer.ui.fragments.startFragment.view.StartFragment
+import ru.grakhell.userviewer.ui.fragments.startFragment.view.StartFragmentModule
 import ru.grakhell.userviewer.ui.fragments.userInfoFragment.view.UserInfoFragment
 import ru.grakhell.userviewer.ui.fragments.userInfoFragment.view.UserInfoFragmentModule
 
@@ -29,7 +31,11 @@ abstract class ConductorActivityModule {
     @ContributesAndroidInjector(modules = [RepositoryInfoFragmentModule::class])
     abstract fun repositoryInfoFragment(): RepositoryInfoFragment
 
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [StartFragmentModule::class])
+    abstract fun startFragment(): StartFragment
+
     @ActivityScope
     @Binds
-    abstract fun activity(activity: ConductorActivity):AppCompatActivity
+    abstract fun activity(activity: ConductorActivity): AppCompatActivity
 }

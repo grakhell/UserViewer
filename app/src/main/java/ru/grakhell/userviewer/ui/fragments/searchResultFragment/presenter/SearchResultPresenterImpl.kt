@@ -16,23 +16,23 @@ import javax.inject.Inject
 
 @FragmentScope
 class SearchResultPresenterImpl @Inject constructor(
-    private val mSource:GetUserSearchResult,
+    private val mSource: GetUserSearchResult,
     view: SearchResultView?
-    ):BasePresenter<SearchResultView>(view),
-    SearchResultPresenter{
+) : BasePresenter<SearchResultView>(view),
+    SearchResultPresenter {
 
-    private lateinit var disposable:Disposable
+    private lateinit var disposable: Disposable
 
     private var params = QueryParams()
 
-    override fun setNameToSearch(value:String) {params.userName = value}
+    override fun setNameToSearch(value: String) { params.userName = value }
 
     override fun updateData() {
         launch {
             disposable = mSource.execute(params).subscribe({ items ->
                 kotlin.run {
                     val adapter = SearchResultRecyclerViewAdapter()
-                    adapter.getClickedItems().subscribe{it -> onListFragmentInteraction(it)}
+                    adapter.getClickedItems().subscribe { it -> onListFragmentInteraction(it) }
                     mView?.getRecyclerView()?.swapAdapter(adapter, true)
                     adapter.submitList(items)
                     adapter.notifyDataSetChanged()

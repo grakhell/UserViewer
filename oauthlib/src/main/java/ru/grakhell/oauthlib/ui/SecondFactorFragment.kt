@@ -15,7 +15,7 @@ class SecondFactorFragment : Fragment() {
         fun newInstance() = SecondFactorFragment()
     }
 
-    private lateinit var viewModel: SecondFactorViewModel
+    private lateinit var viewModel: AuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +26,7 @@ class SecondFactorFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SecondFactorViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         // TODO: Use the ViewModel
     }
 }

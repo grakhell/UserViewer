@@ -6,7 +6,4 @@ import javax.inject.Inject
 
 class StartPresenterImpl @Inject constructor(
     view: StartView?
-):BasePresenter<StartView>(view), StartPresenter {
-
-
-}
+) : BasePresenter<StartView>(view), StartPresenter

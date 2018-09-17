@@ -12,7 +12,7 @@ import butterknife.ButterKnife
 import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.domain.entity.GetBranchesInfoQuery
 
-class RepositoryInfoBranchRecyclerViewAdapter :PagedListAdapter<GetBranchesInfoQuery.Node,
+class RepositoryInfoBranchRecyclerViewAdapter : PagedListAdapter<GetBranchesInfoQuery.Node,
     RepositoryInfoBranchRecyclerViewAdapter.ViewHolder>(CALLBACK()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,7 +27,7 @@ class RepositoryInfoBranchRecyclerViewAdapter :PagedListAdapter<GetBranchesInfoQ
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         init {
-            ButterKnife.bind(this,mView)
+            ButterKnife.bind(this, mView)
         }
 
         @BindView(R.id.tvName) lateinit var mName: TextView

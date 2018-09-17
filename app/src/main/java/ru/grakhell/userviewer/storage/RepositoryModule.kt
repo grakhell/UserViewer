@@ -12,10 +12,10 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun apiQueries(queryManager: QueryManager):GitApiQueries = queryManager
+    fun apiQueries(queryManager: QueryManager): GitApiQueries = queryManager
 
     @Provides
     @Singleton
-    fun rxObservableCreator(rxObservableCreator: RxObservableCreator):RxObservableCreator
-        = rxObservableCreator
+    fun rxObservableCreator(rxObservableCreator: RxObservableCreator): RxObservableCreator =
+        rxObservableCreator
 }

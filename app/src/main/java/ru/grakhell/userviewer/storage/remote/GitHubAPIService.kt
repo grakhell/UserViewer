@@ -18,7 +18,7 @@ class GitHubAPIService {
             private val cacheFactory = LruNormalizedCacheFactory(EvictionPolicy.builder()
                 .maxSizeBytes(10485760).build())
 
-            private val apolloClient:ApolloClient by lazy{
+            private val apolloClient: ApolloClient by lazy {
                 ApolloClient.builder()
                     .serverUrl(BASE_URL)
                     .normalizedCache(cacheFactory)
@@ -27,21 +27,21 @@ class GitHubAPIService {
                     .build()
             }
 
-        private fun createOkHttpClient():OkHttpClient{
+        private fun createOkHttpClient(): OkHttpClient {
             return OkHttpClient.Builder()
                 .authenticator { _, response -> kotlin.run {
-                    val cred = Credentials.basic("bearer", " ")
+                    val cred = Credentials.basic("bearer", "add5f038eef0edf7eff6e079a6e97d1b439e9b59")
                     if (cred == response.request().header("Authorization")) return@run null
-                    return@run response.request().newBuilder().header("Authorization",cred)
-                        .build()}}
+                    return@run response.request().newBuilder().header("Authorization", cred)
+                        .build() } }
                 .build()
         }
 
-        fun getClient():ApolloClient{
+        fun getClient(): ApolloClient {
             return apolloClient
         }
 
-        class DateCustomTypeAdapter: CustomTypeAdapter<Date>{
+        class DateCustomTypeAdapter : CustomTypeAdapter<Date> {
             override fun decode(value: CustomTypeValue<*>): Date {
                 val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
                 return format.parse(value.value.toString())

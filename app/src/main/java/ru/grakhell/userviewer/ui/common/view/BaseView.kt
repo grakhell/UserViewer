@@ -4,7 +4,7 @@ import android.os.Bundle
 import ru.grakhell.userviewer.ui.common.presenter.Presenter
 import javax.inject.Inject
 
-abstract class BaseView<T: Presenter>: BaseFragment(), MVP {
+abstract class BaseView<T : Presenter> : BaseFragment(), MVP {
 
     @Inject
     protected lateinit var presenter: T

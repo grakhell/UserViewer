@@ -1,4 +1,4 @@
-package ru.grakhell.userviewer.auth
+package ru.grakhell.oauthlib.auth
 
 import android.accounts.AbstractAccountAuthenticator
 import android.accounts.Account
@@ -7,18 +7,12 @@ import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import okhttp3.OkHttpClient
-import ru.grakhell.userviewer.R
-import ru.grakhell.userviewer.ui.activity.AuthActivity
-import javax.inject.Inject
+import ru.grakhell.oauthlib.R
+import ru.grakhell.oauthlib.ui.AuthActivity
 
 class AppAuthenticator constructor(
-    val context: Context
-):AbstractAccountAuthenticator(context) {
-
-    private val BASE_URL:String = "https://api.github.com"
-    private val client = OkHttpClient.Builder()
-        .build()
+    private val context: Context
+) : AbstractAccountAuthenticator(context) {
 
     override fun getAuthToken(
         response: AccountAuthenticatorResponse?,
@@ -31,7 +25,13 @@ class AppAuthenticator constructor(
         if (token.isEmpty()) {
             val password = am.getPassword(account)
             if (!password.isNullOrEmpty()) {
-                TODO("server auth code")
+                val bundle = Bundle()
+                val intent = Intent(context, AuthActivity::class.java)
+                intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, account?.name)
+                intent.putExtra(AccountManager.KEY_PASSWORD, password)
+                intent.putExtra(GitAccount.ARG_IS_GET_TOKEN, true)
+                intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
+                bundle.putParcelable(AccountManager.KEY_INTENT, intent)
             }
         }
         if (token.isNotEmpty()) {
@@ -46,12 +46,12 @@ class AppAuthenticator constructor(
         intent.putExtra(GitAccount.ARG_ACCOUNT_TYPE, account?.type)
         intent.putExtra(GitAccount.ARG_AUTH_TYPE, authTokenType)
         val bundle = Bundle()
-        bundle.putParcelable(AccountManager.KEY_INTENT,intent)
+        bundle.putParcelable(AccountManager.KEY_INTENT, intent)
         return bundle
     }
 
     override fun getAuthTokenLabel(authTokenType: String?): String {
-        if(GitAccount.AUTHTOKEN_TYPE_GIT_SCOPE == authTokenType) {
+        if (GitAccount.AUTHTOKEN_TYPE_GIT_SCOPE == authTokenType) {
             return context.resources.getString(R.string.authTypeTokenScope)
         }
         return authTokenType.orEmpty()
@@ -64,7 +64,7 @@ class AppAuthenticator constructor(
         requiredFeatures: Array<out String>?,
         options: Bundle?
     ): Bundle {
-        val intent = Intent(context,AuthActivity::class.java)
+        val intent = Intent(context, AuthActivity::class.java)
         intent.putExtra(GitAccount.ARG_ACCOUNT_TYPE, accountType)
         intent.putExtra(GitAccount.ARG_AUTH_TYPE, authTokenType)
         intent.putExtra(GitAccount.ARG_IS_ADDING_NEW_ACCOUNT, true)
@@ -73,7 +73,6 @@ class AppAuthenticator constructor(
         bundle.putParcelable(AccountManager.KEY_INTENT, intent)
         return bundle
     }
-
 
     override fun confirmCredentials(
         response: AccountAuthenticatorResponse?,
@@ -93,7 +92,6 @@ class AppAuthenticator constructor(
         account: Account?,
         features: Array<out String>?
     ): Bundle? = null
-
 
     override fun editProperties(p0: AccountAuthenticatorResponse?, p1: String?): Bundle? = null
 }

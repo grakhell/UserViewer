@@ -20,5 +20,5 @@ abstract class SearchResultFragmentModule {
 
     @Binds
     @FragmentScope
-    abstract fun searchResultView(searchResultFragment: SearchResultFragment):SearchResultView
+    abstract fun searchResultView(searchResultFragment: SearchResultFragment): SearchResultView
 }
