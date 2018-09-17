@@ -17,5 +17,8 @@ class GitAccount(val name:String, val token:String) {
         const val ARG_AUTH_TYPE:String = "AUTH_TYPE"
         const val ARG_ACCOUNT_NAME:String = "ACCOUNT_NAME"
         const val ARG_IS_ADDING_NEW_ACCOUNT:String = "IS_ADDING_ACCOUNT"
+
+        const val AUTHTOKEN_TYPE_GIT_SCOPE = "Read access"
+
     }
 }

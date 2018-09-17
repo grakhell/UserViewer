@@ -8,10 +8,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import okhttp3.OkHttpClient
+import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.ui.activity.AuthActivity
 import javax.inject.Inject
 
-class AppAuthenticator @Inject constructor(
+class AppAuthenticator constructor(
     val context: Context
 ):AbstractAccountAuthenticator(context) {
 
@@ -25,11 +26,35 @@ class AppAuthenticator @Inject constructor(
         authTokenType: String?,
         options: Bundle?
     ): Bundle {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val am = AccountManager.get(context)
+        val token = am.peekAuthToken(account, authTokenType)
+        if (token.isEmpty()) {
+            val password = am.getPassword(account)
+            if (!password.isNullOrEmpty()) {
+                TODO("server auth code")
+            }
+        }
+        if (token.isNotEmpty()) {
+            val result = Bundle()
+            result.putString(AccountManager.KEY_ACCOUNT_NAME, account?.name)
+            result.putString(AccountManager.KEY_ACCOUNT_TYPE, account?.type)
+            result.putString(AccountManager.KEY_AUTHTOKEN, token)
+            return result
+        }
+        val intent = Intent(context, AuthActivity::class.java)
+        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
+        intent.putExtra(GitAccount.ARG_ACCOUNT_TYPE, account?.type)
+        intent.putExtra(GitAccount.ARG_AUTH_TYPE, authTokenType)
+        val bundle = Bundle()
+        bundle.putParcelable(AccountManager.KEY_INTENT,intent)
+        return bundle
     }
 
     override fun getAuthTokenLabel(authTokenType: String?): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if(GitAccount.AUTHTOKEN_TYPE_GIT_SCOPE == authTokenType) {
+            return context.resources.getString(R.string.authTypeTokenScope)
+        }
+        return authTokenType.orEmpty()
     }
 
     override fun addAccount(
