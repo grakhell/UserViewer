@@ -14,7 +14,7 @@ abstract class BaseActivityModule {
 
     @ActivityScope
     @Binds
-    abstract fun activityContext(activity: AppCompatActivity):Context
+    abstract fun activityContext(activity: AppCompatActivity): Context
 
     @Module
     companion object {

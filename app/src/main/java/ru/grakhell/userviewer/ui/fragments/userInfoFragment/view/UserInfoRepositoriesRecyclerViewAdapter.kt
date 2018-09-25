@@ -13,7 +13,7 @@ import io.reactivex.subjects.BehaviorSubject
 import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.domain.entity.GetUserRepoInfoQuery
 
-class UserInfoRepositoriesRecyclerViewAdapter:PagedListAdapter<GetUserRepoInfoQuery.Node,
+class UserInfoRepositoriesRecyclerViewAdapter : PagedListAdapter<GetUserRepoInfoQuery.Node,
     UserInfoRepositoriesRecyclerViewAdapter.ViewHolder>(CALLBACK()) {
 
     private val publisher: BehaviorSubject<GetUserRepoInfoQuery.Node> = BehaviorSubject.create()
@@ -29,28 +29,27 @@ class UserInfoRepositoriesRecyclerViewAdapter:PagedListAdapter<GetUserRepoInfoQu
         holder.bind(item)
         with(holder.mView) {
             setOnClickListener {
-                if (item!=null)publisher.onNext(item)
+                if (item != null)publisher.onNext(item)
             }
         }
     }
 
     fun getClickedItems() = publisher
 
-    inner class ViewHolder(val mView: View):RecyclerView.ViewHolder(mView)
-    {
+    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         init {
-            ButterKnife.bind(this,mView)
+            ButterKnife.bind(this, mView)
         }
         @BindView(R.id.tvName) lateinit var mName: TextView
         @BindView(R.id.tvDesc) lateinit var mDesc: TextView
 
-        fun bind(item:GetUserRepoInfoQuery.Node?) {
-            mName.text = item?.name()?:itemView.resources.getString(R.string.emptyname)
-            mDesc.text = item?.description()?:itemView.resources.getString(R.string.emptydesc)
+        fun bind(item: GetUserRepoInfoQuery.Node?) {
+            mName.text = item?.name() ?: itemView.resources.getString(R.string.emptyname)
+            mDesc.text = item?.description() ?: itemView.resources.getString(R.string.emptydesc)
         }
     }
 
-    class CALLBACK: DiffUtil.ItemCallback<GetUserRepoInfoQuery.Node>() {
+    class CALLBACK : DiffUtil.ItemCallback<GetUserRepoInfoQuery.Node>() {
 
         override fun areContentsTheSame(
             oldItem: GetUserRepoInfoQuery.Node,
@@ -61,6 +60,6 @@ class UserInfoRepositoriesRecyclerViewAdapter:PagedListAdapter<GetUserRepoInfoQu
         override fun areItemsTheSame(
             oldItem: GetUserRepoInfoQuery.Node,
             newItem: GetUserRepoInfoQuery.Node
-        ): Boolean  = oldItem.id() == newItem.id()
+        ): Boolean = oldItem.id() == newItem.id()
     }
 }

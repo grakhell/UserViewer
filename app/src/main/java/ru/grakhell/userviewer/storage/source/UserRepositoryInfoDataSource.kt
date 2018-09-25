@@ -11,14 +11,14 @@ import ru.grakhell.userviewer.storage.remote.RxObservableCreator
 import ru.grakhell.userviewer.util.RxUtil
 import timber.log.Timber
 
-class UserRepositoryInfoDataSource
-    (private val mName:String,
-    private val mRepository: RxObservableCreator)
-    : PageKeyedDataSource<String,GetUserRepoInfoQuery.Node>() {
+class UserRepositoryInfoDataSource(
+    private val mName: String,
+    private val mRepository: RxObservableCreator
+)
+    : PageKeyedDataSource<String, GetUserRepoInfoQuery.Node>() {
 
     private lateinit var mResponse: Response<GetUserRepoInfoQuery.Data>
-    private var disposable: CompositeDisposable = CompositeDisposable()
-
+    private lateinit var disposable: CompositeDisposable
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -26,6 +26,7 @@ class UserRepositoryInfoDataSource
     ) {
         launch {
             try {
+                disposable = CompositeDisposable()
                 disposable.add(mRepository.getUserRepoInfoObservable(mName, params.requestedLoadSize,
                     null).subscribe(
                     { x ->
@@ -46,10 +47,9 @@ class UserRepositoryInfoDataSource
                             mResponse.errors().forEach { y ->
                                 Timber.d(y.message())
                                 Crashlytics.log(y.message())
-                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                             }
-                        }
-                    },
+                        } },
                     { ex ->
                         Timber.d(ex)
                         Crashlytics.logException(ex)
@@ -67,8 +67,8 @@ class UserRepositoryInfoDataSource
     ) {
         launch {
             try {
-               disposable.add(mRepository.getUserRepoInfoObservable(mName, params.requestedLoadSize,
-                   params.key).subscribe(
+                disposable.add(mRepository.getUserRepoInfoObservable(mName, params.requestedLoadSize,
+                    params.key).subscribe(
                     { x -> mResponse = checkNotNull(x)
                         if (!mResponse.hasErrors()) {
                             val items = checkNotNull(mResponse.data()
@@ -85,10 +85,9 @@ class UserRepositoryInfoDataSource
                             mResponse.errors().forEach { y ->
                                 Timber.d(y.message())
                                 Crashlytics.log(y.message())
-                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                             }
-                        }
-                    },
+                        } },
                     { ex ->
                         Timber.d(ex)
                         Crashlytics.logException(ex)
@@ -113,7 +112,7 @@ class UserRepositoryInfoDataSource
     class DataSourceFactory(
         private val mName: String,
         private val mRepository: RxObservableCreator
-    ): DataSource.Factory<String,GetUserRepoInfoQuery.Node>() {
+    ) : DataSource.Factory<String, GetUserRepoInfoQuery.Node>() {
         override fun create(): DataSource<String, GetUserRepoInfoQuery.Node> {
             return UserRepositoryInfoDataSource(mName, mRepository)
         }

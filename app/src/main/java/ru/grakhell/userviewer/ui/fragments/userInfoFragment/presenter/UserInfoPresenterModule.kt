@@ -9,5 +9,5 @@ abstract class UserInfoPresenterModule {
 
     @Binds
     @FragmentScope
-    abstract fun userInfoPresenter(userInfoPresenterImpl: UserInfoPresenterImpl):UserInfoPresenter
+    abstract fun userInfoPresenter(userInfoPresenterImpl: UserInfoPresenterImpl): UserInfoPresenter
 }

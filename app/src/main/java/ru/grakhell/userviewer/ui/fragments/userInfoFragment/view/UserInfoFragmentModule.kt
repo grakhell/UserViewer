@@ -16,9 +16,9 @@ abstract class UserInfoFragmentModule {
     @Binds
     @FragmentScope
     @Named(BaseFragmentModule.FRAGMENT)
-    abstract fun fragment(userInfoFragment: UserInfoFragment):Fragment
+    abstract fun fragment(userInfoFragment: UserInfoFragment): Fragment
 
     @Binds
     @FragmentScope
-    abstract fun userInfoView(userInfoFragment: UserInfoFragment):UserInfoView
+    abstract fun userInfoView(userInfoFragment: UserInfoFragment): UserInfoView
 }

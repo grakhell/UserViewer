@@ -13,19 +13,19 @@ import timber.log.Timber
 
 class UserStarredRepositoriesInfoDataSource constructor(
     private val mName: String,
-    private val mRepository: RxObservableCreator)
+    private val mRepository: RxObservableCreator
+)
     : PageKeyedDataSource<String, GetUserStarredRepoInfoQuery.Node>() {
 
-
     private lateinit var mResponse: Response<GetUserStarredRepoInfoQuery.Data>
-    private var disposable: CompositeDisposable = CompositeDisposable()
-
+    private lateinit var disposable: CompositeDisposable
     override fun loadInitial(
         params: LoadInitialParams<String>,
         callback: LoadInitialCallback<String, GetUserStarredRepoInfoQuery.Node>
     ) {
         launch {
             try {
+                disposable = CompositeDisposable()
                 disposable.add(mRepository.getUserStarredRepoInfoObservable(mName,
                     params.requestedLoadSize, null).subscribe(
                     { x -> mResponse = checkNotNull(x)
@@ -45,7 +45,7 @@ class UserStarredRepositoriesInfoDataSource constructor(
                             mResponse.errors().forEach { y ->
                                 Timber.d(y.message())
                                 Crashlytics.log(y.message())
-                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                             }
                         }
                     },
@@ -84,7 +84,7 @@ class UserStarredRepositoriesInfoDataSource constructor(
                             mResponse.errors().forEach { y ->
                                 Timber.d(y.message())
                                 Crashlytics.log(y.message())
-                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                             }
                         }
                     },
@@ -112,8 +112,7 @@ class UserStarredRepositoriesInfoDataSource constructor(
     class DataSourceFactory(
         private val mName: String,
         private val mRepository: RxObservableCreator
-    ): DataSource.Factory<String, GetUserStarredRepoInfoQuery.Node>()
-    {
+    ) : DataSource.Factory<String, GetUserStarredRepoInfoQuery.Node>() {
         override fun create(): DataSource<String, GetUserStarredRepoInfoQuery.Node> {
             return UserStarredRepositoriesInfoDataSource(mName, mRepository)
         }

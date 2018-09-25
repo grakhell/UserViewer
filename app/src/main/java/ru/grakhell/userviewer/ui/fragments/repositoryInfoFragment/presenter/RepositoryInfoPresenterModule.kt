@@ -8,6 +8,5 @@ import ru.grakhell.userviewer.injection.scope.FragmentScope
 abstract class RepositoryInfoPresenterModule {
     @Binds
     @FragmentScope
-    abstract fun RepositoryInfoPresenter(repositoryInfoPresenterImpl: RepositoryInfoPresenterImpl)
-        :RepositoryInfoPresenter
+    abstract fun RepositoryInfoPresenter(repositoryInfoPresenterImpl: RepositoryInfoPresenterImpl): RepositoryInfoPresenter
 }

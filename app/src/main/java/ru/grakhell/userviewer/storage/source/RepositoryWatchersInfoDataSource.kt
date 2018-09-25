@@ -4,7 +4,6 @@ import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.apollographql.apollo.api.Response
 import com.crashlytics.android.Crashlytics
-import io.fabric.sdk.android.services.common.Crash
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.experimental.launch
 import ru.grakhell.userviewer.domain.entity.GetWatchersInfoQuery
@@ -13,13 +12,14 @@ import ru.grakhell.userviewer.util.RxUtil
 import timber.log.Timber
 
 class RepositoryWatchersInfoDataSource constructor(
-    private val mUserName:String,
-    private val mRepoName:String,
-    private val mRepository: RxObservableCreator)
+    private val mUserName: String,
+    private val mRepoName: String,
+    private val mRepository: RxObservableCreator
+)
     : PageKeyedDataSource<String, GetWatchersInfoQuery.Node>() {
 
     private lateinit var mResponse: Response<GetWatchersInfoQuery.Data>
-    private val disposable:CompositeDisposable = CompositeDisposable()
+    private lateinit var disposable: CompositeDisposable
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -27,8 +27,9 @@ class RepositoryWatchersInfoDataSource constructor(
     ) {
         launch {
             try {
-                disposable.add(mRepository.getWatcherInfoObservable(mUserName, params
-                    .requestedLoadSize, null,mRepoName)
+                disposable = CompositeDisposable()
+                disposable.add(mRepository.getWatcherInfoObservable(mUserName,
+                    params.requestedLoadSize, null, mRepoName)
                     .subscribe(
                         { x -> mResponse = checkNotNull(x)
                             if (!mResponse.hasErrors()) {
@@ -47,9 +48,9 @@ class RepositoryWatchersInfoDataSource constructor(
                                 mResponse.errors().forEach { y ->
                                     Timber.d(y.message())
                                     Crashlytics.log(y.message())
-                                    y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                    y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                                 }
-                            }},
+                            } },
                         { ex ->
                             Timber.d(ex)
                             Crashlytics.logException(ex)
@@ -67,9 +68,8 @@ class RepositoryWatchersInfoDataSource constructor(
     ) {
         launch {
             try {
-               disposable.add(mRepository.getWatcherInfoObservable(mUserName, params
-                   .requestedLoadSize, params.key,
-                    mRepoName)
+                disposable.add(mRepository.getWatcherInfoObservable(mUserName,
+                    params.requestedLoadSize, params.key, mRepoName)
                     .subscribe(
                         { x -> mResponse = checkNotNull(x)
                             if (!mResponse.hasErrors()) {
@@ -86,9 +86,9 @@ class RepositoryWatchersInfoDataSource constructor(
                                 mResponse.errors().forEach { y ->
                                     Timber.d(y.message())
                                     Crashlytics.log(y.message())
-                                    y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                    y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                                 }
-                            }},
+                            } },
                         { ex ->
                             Timber.d(ex)
                             Crashlytics.logException(ex)
@@ -114,8 +114,7 @@ class RepositoryWatchersInfoDataSource constructor(
         private val mUserName: String,
         private val mRepoName: String,
         private val mRepository: RxObservableCreator
-    ): DataSource.Factory<String, GetWatchersInfoQuery.Node>()
-    {
+    ) : DataSource.Factory<String, GetWatchersInfoQuery.Node>() {
         override fun create(): DataSource<String, GetWatchersInfoQuery.Node> {
             return RepositoryWatchersInfoDataSource(mUserName, mRepoName, mRepository)
         }

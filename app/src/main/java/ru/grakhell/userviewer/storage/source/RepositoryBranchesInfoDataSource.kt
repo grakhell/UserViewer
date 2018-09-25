@@ -12,14 +12,14 @@ import ru.grakhell.userviewer.util.RxUtil
 import timber.log.Timber
 
 class RepositoryBranchesInfoDataSource constructor(
-    private val mUserName:String,
-    private val mRepoName:String,
-    private val mRepository: RxObservableCreator)
+    private val mUserName: String,
+    private val mRepoName: String,
+    private val mRepository: RxObservableCreator
+)
     : PageKeyedDataSource<String, GetBranchesInfoQuery.Node>() {
 
-
     private lateinit var mResponse: Response<GetBranchesInfoQuery.Data>
-    private val disposable:CompositeDisposable = CompositeDisposable()
+    private lateinit var disposable: CompositeDisposable
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -27,8 +27,9 @@ class RepositoryBranchesInfoDataSource constructor(
     ) {
         launch {
             try {
+                disposable = CompositeDisposable()
                 disposable.add(mRepository.getBranchesInfoObservable(mUserName, params
-                    .requestedLoadSize, null,mRepoName)
+                    .requestedLoadSize, null, mRepoName)
                     .subscribe(
                     { x -> mResponse = checkNotNull(x)
                         if (!mResponse.hasErrors()) {
@@ -47,12 +48,12 @@ class RepositoryBranchesInfoDataSource constructor(
                             mResponse.errors().forEach { y ->
                                 Timber.d(y.message())
                                 Crashlytics.log(y.message())
-                                y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                             }
-                        }},
+                        } },
                     { ex ->
                         Timber.d(ex)
-                        Crashlytics.logException(ex)}))
+                        Crashlytics.logException(ex) }))
             } catch (e: Exception) {
                 Timber.d(e)
                 Crashlytics.logException(e)
@@ -67,7 +68,7 @@ class RepositoryBranchesInfoDataSource constructor(
         launch {
             try {
                 disposable.add(mRepository.getBranchesInfoObservable(mUserName, params
-                    .requestedLoadSize, params.key,mRepoName)
+                    .requestedLoadSize, params.key, mRepoName)
                     .subscribe(
                         { x -> mResponse = checkNotNull(x)
                             if (!mResponse.hasErrors()) {
@@ -84,12 +85,12 @@ class RepositoryBranchesInfoDataSource constructor(
                                 mResponse.errors().forEach { y ->
                                     Timber.d(y.message())
                                     Crashlytics.log(y.message())
-                                    y.customAttributes().forEach{z -> Crashlytics.log(z.toString())}
+                                    y.customAttributes().forEach { z -> Crashlytics.log(z.toString()) }
                                 }
-                            }},
+                            } },
                         { ex ->
                             Timber.d(ex)
-                            Crashlytics.logException(ex)}))
+                            Crashlytics.logException(ex) }))
             } catch (e: Exception) {
                 Timber.d(e)
                 Crashlytics.logException(e)
@@ -111,8 +112,7 @@ class RepositoryBranchesInfoDataSource constructor(
         private val mUserName: String,
         private val mRepoName: String,
         private val mRepository: RxObservableCreator
-    ): DataSource.Factory<String, GetBranchesInfoQuery.Node>()
-    {
+    ) : DataSource.Factory<String, GetBranchesInfoQuery.Node>() {
         override fun create(): DataSource<String, GetBranchesInfoQuery.Node> {
             return RepositoryBranchesInfoDataSource(mUserName, mRepoName, mRepository)
         }

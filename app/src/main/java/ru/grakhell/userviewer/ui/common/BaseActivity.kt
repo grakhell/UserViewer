@@ -11,10 +11,10 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-abstract class BaseActivity:AppCompatActivity(), HasSupportFragmentInjector {
+abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
-    lateinit var fragmentInjector:DispatchingAndroidInjector<Fragment>
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         AndroidInjection.inject(this)
@@ -23,13 +23,13 @@ abstract class BaseActivity:AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
-    protected fun addFragment(@IdRes containerViewId:Int, fragment: Fragment) {
+    protected fun addFragment(@IdRes containerViewId: Int, fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .add(containerViewId, fragment)
             .commit()
     }
 
-    protected fun replaceFragment(@IdRes containerViewId:Int, fragment: Fragment) {
+    protected fun replaceFragment(@IdRes containerViewId: Int, fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(containerViewId, fragment)
             .commit()

@@ -14,7 +14,7 @@ import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.domain.entity.GetWatchersInfoQuery
 import ru.grakhell.userviewer.injection.module.GlideApp
 
-class RepositoryInfoWatcherRecyclerViewAdapter: PagedListAdapter<GetWatchersInfoQuery.Node,
+class RepositoryInfoWatcherRecyclerViewAdapter : PagedListAdapter<GetWatchersInfoQuery.Node,
     RepositoryInfoWatcherRecyclerViewAdapter.ViewHolder>(CALLBACK()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +29,7 @@ class RepositoryInfoWatcherRecyclerViewAdapter: PagedListAdapter<GetWatchersInfo
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         init {
-            ButterKnife.bind(this,mView)
+            ButterKnife.bind(this, mView)
         }
 
         @BindView(R.id.tvName) lateinit var mName: TextView
@@ -42,7 +42,6 @@ class RepositoryInfoWatcherRecyclerViewAdapter: PagedListAdapter<GetWatchersInfo
             GlideApp.with(mView)
                 .load(item?.avatarUrl())
                 .into(mAvatar)
-
         }
     }
 

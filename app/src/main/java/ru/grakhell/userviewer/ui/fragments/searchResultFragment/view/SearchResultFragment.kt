@@ -17,7 +17,7 @@ import ru.grakhell.userviewer.ui.fragments.searchResultFragment.presenter.Search
 import javax.inject.Inject
 
 @FragmentScope
-class SearchResultFragment @Inject constructor(): BaseView<SearchResultPresenter>(),
+class SearchResultFragment @Inject constructor() : BaseView<SearchResultPresenter>(),
     SearchResultView {
     @BindView(R.id.list) lateinit var mUserListView: RecyclerView
     @BindView(R.id.refreshLayout) lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
@@ -25,18 +25,19 @@ class SearchResultFragment @Inject constructor(): BaseView<SearchResultPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val str = arguments?.getString("USER_NAME")
-        if(str!=null) presenter.setNameToSearch(str)
+        if (str != null) presenter.setNameToSearch(str)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_searchresult_list, container, false)
-        ButterKnife.bind(this,view)
+        ButterKnife.bind(this, view)
         mSwipeRefreshLayout.setOnRefreshListener(presenter)
         mUserListView.layoutManager =
-            GridLayoutManager(this.context, 3)
+            GridLayoutManager(this.context, 2)
         mSwipeRefreshLayout.isRefreshing = true
         presenter.updateData()
         return view
@@ -48,7 +49,4 @@ class SearchResultFragment @Inject constructor(): BaseView<SearchResultPresenter
     override fun getParentActivity(): ConductorActivity {
         return activity as ConductorActivity
     }
-
-
-    fun isActive(): Boolean = isAdded
 }

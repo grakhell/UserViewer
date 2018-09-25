@@ -13,5 +13,4 @@ interface Presenter {
     fun onSaveInstanceState(outState: Bundle?)
 
     fun onEnd()
-    
 }

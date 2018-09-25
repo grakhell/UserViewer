@@ -12,12 +12,12 @@ import butterknife.ButterKnife
 import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.domain.entity.GetUserOrganisationInfoQuery
 
-class UserInfoOrganisationRecyclerViewAdapter:PagedListAdapter<GetUserOrganisationInfoQuery.Node,
+class UserInfoOrganisationRecyclerViewAdapter : PagedListAdapter<GetUserOrganisationInfoQuery.Node,
     UserInfoOrganisationRecyclerViewAdapter.ViewHolder>(CALLBACK()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_user_info_organisation,parent,false)
+            .inflate(R.layout.fragment_user_info_organisation, parent, false)
         return ViewHolder(view)
     }
 
@@ -30,17 +30,16 @@ class UserInfoOrganisationRecyclerViewAdapter:PagedListAdapter<GetUserOrganisati
         init {
             ButterKnife.bind(this, mView)
         }
-        @BindView(R.id.tvName) lateinit var mName:TextView
-        @BindView(R.id.tvDesc) lateinit var mDesc:TextView
+        @BindView(R.id.tvName) lateinit var mName: TextView
+        @BindView(R.id.tvDesc) lateinit var mDesc: TextView
 
-        fun bind(item:GetUserOrganisationInfoQuery.Node?){
-            mName.text = item?.name()?:itemView.resources.getString(R.string.emptyname)
-            mDesc.text = item?.description()?:itemView.resources.getString(R.string.emptydesc)
+        fun bind(item: GetUserOrganisationInfoQuery.Node?) {
+            mName.text = item?.name() ?: itemView.resources.getString(R.string.emptyname)
+            mDesc.text = item?.description() ?: itemView.resources.getString(R.string.emptydesc)
         }
-
     }
 
-    class CALLBACK: DiffUtil.ItemCallback<GetUserOrganisationInfoQuery.Node>() {
+    class CALLBACK : DiffUtil.ItemCallback<GetUserOrganisationInfoQuery.Node>() {
 
         override fun areContentsTheSame(
             oldItem: GetUserOrganisationInfoQuery.Node,
@@ -51,6 +50,6 @@ class UserInfoOrganisationRecyclerViewAdapter:PagedListAdapter<GetUserOrganisati
         override fun areItemsTheSame(
             oldItem: GetUserOrganisationInfoQuery.Node,
             newItem: GetUserOrganisationInfoQuery.Node
-        ): Boolean  = oldItem.id() == newItem.id()
+        ): Boolean = oldItem.id() == newItem.id()
     }
 }

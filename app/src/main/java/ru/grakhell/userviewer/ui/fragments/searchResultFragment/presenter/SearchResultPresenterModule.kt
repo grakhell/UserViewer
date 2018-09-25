@@ -9,6 +9,5 @@ abstract class SearchResultPresenterModule {
 
     @Binds
     @FragmentScope
-    abstract fun searchResultPresenter(searchResultPresenterImpl: SearchResultPresenterImpl)
-        :SearchResultPresenter
+    abstract fun searchResultPresenter(searchResultPresenterImpl: SearchResultPresenterImpl): SearchResultPresenter
 }

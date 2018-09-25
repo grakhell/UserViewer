@@ -30,14 +30,14 @@ import javax.inject.Inject
 @FragmentScope
 class UserInfoPresenterImpl @Inject constructor(
     private val mUserInfoSource: GetUserInfo,
-    private val mRepoSource:GetUserRepoInfo,
-    private val mStarredRepoSource:GetUserStarredRepoInfo,
-    private val mOrgSource:GetUserOrganisationInfo,
+    private val mRepoSource: GetUserRepoInfo,
+    private val mStarredRepoSource: GetUserStarredRepoInfo,
+    private val mOrgSource: GetUserOrganisationInfo,
     view: UserInfoView?
-    ):BasePresenter<UserInfoView>(view), UserInfoPresenter{
+) : BasePresenter<UserInfoView>(view), UserInfoPresenter {
 
     private var disposable: CompositeDisposable = CompositeDisposable()
-    private var params:QueryParams = QueryParams()
+    private var params: QueryParams = QueryParams()
 
     override fun setUserName(user: String?) {
         params.userName = checkNotNull(user)
@@ -56,84 +56,82 @@ class UserInfoPresenterImpl @Inject constructor(
                             if (checkNotNull(item?.organizations()?.totalCount()) > 0) {
                                 setOrganisationsList().await() }
                             if (checkNotNull(item?.repositories()?.totalCount()) > 0) {
-                                setRepositoriesList().await()  }
+                                setRepositoriesList().await() }
                             if (checkNotNull(item?.starredRepositories()?.totalCount()) > 0) {
-                                setStarredRepoList().await()  }
+                                setStarredRepoList().await() }
                         }
                     },
                     { ex -> Timber.e(ex)
-                        Snackbar.make(checkNotNull(mView?.getBaseView()),ex.localizedMessage,
+                        Snackbar.make(checkNotNull(mView?.getBaseView()), ex.localizedMessage,
                             Snackbar.LENGTH_INDEFINITE)
-                            .setAction(R.string.cancel_string){
+                            .setAction(R.string.cancel_string) {
                                 mView?.getParentActivity()?.getNavController()?.popBackStack()
                             }
                             .setActionTextColor(Color.WHITE)
-                            .show()})
+                            .show() })
             )
         } catch (e: Exception) {
             Timber.e(e)
             Crashlytics.logException(e)
-            Snackbar.make(checkNotNull(mView?.getBaseView()),e.localizedMessage,
+            Snackbar.make(checkNotNull(mView?.getBaseView()), e.localizedMessage,
                 Snackbar.LENGTH_LONG)
                 .setDuration(6000)
-                .setAction(R.string.retry_string){ getUserInfo() }
+                .setAction(R.string.retry_string) { getUserInfo() }
                 .show()
         }
     }
 
     private fun setOrganisationsList() = async {
-             val adapter = UserInfoOrganisationRecyclerViewAdapter()
-             mView?.getOrganisationRView()?.swapAdapter(adapter, true)
-             disposable.add(
-                 mOrgSource.execute(params).subscribe(
-                     { list ->
-                         adapter.submitList(list)
-                         adapter.notifyDataSetChanged()
-                     },
-                     { ex -> Timber.e(ex)
-                         Crashlytics.logException(ex)})
-             )}
+        val adapter = UserInfoOrganisationRecyclerViewAdapter()
+        mView?.getOrganisationRView()?.swapAdapter(adapter, true)
+        disposable.add(
+            mOrgSource.execute(params).subscribe(
+                { list ->
+                    adapter.submitList(list)
+                    adapter.notifyDataSetChanged()
+                },
+                { ex -> Timber.e(ex)
+                    Crashlytics.logException(ex) })
+        ) }
 
     private fun setRepositoriesList() = async {
-            val adapter = UserInfoRepositoriesRecyclerViewAdapter()
-            mView?.getRepositoriesRView()?.swapAdapter(adapter, true)
-            disposable.add(
-                mRepoSource.execute(params).subscribe(
-                    { list ->
-                        adapter.submitList(list)
-                        adapter.getClickedItems().subscribe(
-                            {item -> onRepoClickListener(item)},
-                            {ex -> Timber.e(ex)}
-                        )
-                        adapter.notifyDataSetChanged()
+        val adapter = UserInfoRepositoriesRecyclerViewAdapter()
+        mView?.getRepositoriesRView()?.swapAdapter(adapter, true)
+        disposable.add(
+            mRepoSource.execute(params).subscribe(
+                { list ->
+                    adapter.submitList(list)
+                    adapter.getClickedItems().subscribe(
+                        { item -> onRepoClickListener(item) },
+                        { ex -> Timber.e(ex) })
+                    adapter.notifyDataSetChanged()
                     },
-                    { ex -> Timber.e(ex)
-                        Crashlytics.logException(ex)})
-            )}
+                { ex -> Timber.e(ex)
+                    Crashlytics.logException(ex) })
+        ) }
 
     private fun setStarredRepoList() = async {
-            val adapter = UserInfoStarredReposRecyclerViewAdapter()
-            mView?.getStarredReposRView()?.swapAdapter(adapter, true)
-            disposable.add(
-                mStarredRepoSource.execute(params).subscribe(
-                    { list ->
-                        adapter.submitList(list)
-                        adapter.getClickedItems().subscribe(
-                            {item -> onRepoClickListener(item)},
-                            {ex -> Timber.e(ex)}
-                        )
-                        adapter.notifyDataSetChanged()
-                    },
-                    { ex -> Timber.e(ex)
-                        Crashlytics.logException(ex)})
-            )}
+        val adapter = UserInfoStarredReposRecyclerViewAdapter()
+        mView?.getStarredReposRView()?.swapAdapter(adapter, true)
+        disposable.add(
+            mStarredRepoSource.execute(params).subscribe(
+                { list ->
+                    adapter.submitList(list)
+                    adapter.getClickedItems().subscribe(
+                        { item -> onRepoClickListener(item) },
+                        { ex -> Timber.e(ex) })
+                    adapter.notifyDataSetChanged()
+                },
+                { ex -> Timber.e(ex)
+                    Crashlytics.logException(ex) })
+        ) }
 
-    private fun onRepoClickListener(repository: GetUserRepoInfoQuery.Node){
-        mView?.getParentActivity()?.showRepository(params.userName,repository.name())
+    private fun onRepoClickListener(repository: GetUserRepoInfoQuery.Node) {
+        mView?.getParentActivity()?.showRepository(params.userName, repository.name())
     }
 
-    private fun onRepoClickListener(repository: GetUserStarredRepoInfoQuery.Node){
-        mView?.getParentActivity()?.showRepository(repository.owner().login(),repository.name())
+    private fun onRepoClickListener(repository: GetUserStarredRepoInfoQuery.Node) {
+        mView?.getParentActivity()?.showRepository(repository.owner().login(), repository.name())
     }
 
     override fun onStart(savedInstanceState: Bundle?) {

@@ -10,7 +10,7 @@ import java.net.Socket
 
 class NetworkUtil {
     companion object {
-        fun isNetworkConnected(context:Context):Boolean{
+        fun isNetworkConnected(context: Context): Boolean {
             return runBlocking { val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as
                 ConnectivityManager
                 val activeNetworkInfo = cm.activeNetworkInfo

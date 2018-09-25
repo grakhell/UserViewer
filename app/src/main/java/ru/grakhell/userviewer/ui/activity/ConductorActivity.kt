@@ -29,12 +29,11 @@ import ru.grakhell.userviewer.util.ViewUtil
 import timber.log.Timber
 import javax.inject.Inject
 
-
-const val ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE:Int = 5469
+const val ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE: Int = 5469
 
 @ActivityScope
-class ConductorActivity @Inject constructor() : BaseActivity(){
-    private val suggestions: SearchRecentSuggestions by lazy{
+class ConductorActivity @Inject constructor() : BaseActivity() {
+    private val suggestions: SearchRecentSuggestions by lazy {
         SearchRecentSuggestions(this,
             UserViewerSuggestionProvider.AUTHORITY,
             UserViewerSuggestionProvider.MODE)
@@ -50,17 +49,17 @@ class ConductorActivity @Inject constructor() : BaseActivity(){
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main,menu)
+        menuInflater.inflate(R.menu.main, menu)
 
-        val searchManager:SearchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchManager: SearchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView: SearchView = (menu?.findItem(R.id.app_bar_search)?.actionView) as SearchView
         searchView.run {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setIconifiedByDefault(true)
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String?): Boolean = false
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    if(query != null) {
+                    if (query != null) {
                         saveQueryToSuggestion(query)
                         search(query)
                         searchView.clearFocus()
@@ -68,13 +67,13 @@ class ConductorActivity @Inject constructor() : BaseActivity(){
                     return true
                 }
             })
-            setOnSuggestionListener(object : SearchView.OnSuggestionListener{
-                override fun onSuggestionSelect(position: Int): Boolean =false
+            setOnSuggestionListener(object : SearchView.OnSuggestionListener {
+                override fun onSuggestionSelect(position: Int): Boolean = false
                 override fun onSuggestionClick(position: Int): Boolean {
                     val cursor = searchView.suggestionsAdapter.cursor
                     cursor.moveToPosition(position)
                     val string = cursor.getString(2)
-                    searchView.setQuery(string,true)
+                    searchView.setQuery(string, true)
                     return true
                 }
             })
@@ -87,10 +86,10 @@ class ConductorActivity @Inject constructor() : BaseActivity(){
         super.onStart()
     }
 
-    override fun onSupportNavigateUp()
-        = findNavController(this,R.id.nav_host_fragment).navigateUp()
+    override fun onSupportNavigateUp() =
+        findNavController(this, R.id.nav_host_fragment).navigateUp()
 
-    private fun search(query:String) {
+    private fun search(query: String) {
         try {
             if (NetworkUtil.isNetworkConnected(this)) {
                 Answers.getInstance().logSearch(
@@ -116,30 +115,18 @@ class ConductorActivity @Inject constructor() : BaseActivity(){
                     .show()
                 ViewUtil.hideKeyboard(this)
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Timber.e(e)
             Crashlytics.logException(e)
         }
     }
 
     private fun saveQueryToSuggestion(query: String) {
-        suggestions.saveRecentQuery(query,null)
-    }
-
-    private fun checkPermission(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(this)) {
-                val intent = Intent(
-                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:$packageName")
-                )
-                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
-            }
-        }
+        suggestions.saveRecentQuery(query, null)
     }
 
     override fun onPause() {
-        if(isFinishing)suggestions.clearHistory()
+        if (isFinishing)suggestions.clearHistory()
         super.onPause()
     }
 
@@ -160,7 +147,7 @@ class ConductorActivity @Inject constructor() : BaseActivity(){
         }
     }
 
-    fun showRepository(owner:String, name:String){
+    fun showRepository(owner: String, name: String) {
         try {
         Answers.getInstance().logContentView(ContentViewEvent()
             .putContentName("Repository: $name with owner $owner")
@@ -173,6 +160,18 @@ class ConductorActivity @Inject constructor() : BaseActivity(){
         } catch (e: Exception) {
             Timber.e(e)
             Crashlytics.logException(e)
+        }
+    }
+
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:$packageName")
+                )
+                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
+            }
         }
     }
 

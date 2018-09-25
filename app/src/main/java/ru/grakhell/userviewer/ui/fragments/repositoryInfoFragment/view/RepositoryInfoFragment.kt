@@ -34,8 +34,8 @@ class RepositoryInfoFragment @Inject constructor()
     @BindView(R.id.tvName) lateinit var mName: TextView
     @BindView(R.id.tvFork) lateinit var mFork: TextView
     @BindView(R.id.tvDesc) lateinit var mDesc: TextView
-    @BindView(R.id.tvCreatedAt) lateinit var mCreatedAt:TextView
-    @BindView(R.id.tvForkCount) lateinit var mForkCount:TextView
+    @BindView(R.id.tvCreatedAt) lateinit var mCreatedAt: TextView
+    @BindView(R.id.tvForkCount) lateinit var mForkCount: TextView
     @BindView(R.id.tvResourcePath) lateinit var mResourcePath: TextView
 
     @BindView(R.id.languagesExpView) lateinit var mLangExpList: ExpandableLayout
@@ -64,32 +64,33 @@ class RepositoryInfoFragment @Inject constructor()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            presenter.setRepositoryInfo(it.getString("OWNER"),it.getString("REPOSITORY"))
+            presenter.setRepositoryInfo(it.getString("OWNER"), it.getString("REPOSITORY"))
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_repository_info, container, false)
-        ButterKnife.bind(this,view)
+        ButterKnife.bind(this, view)
         return view
     }
 
     override fun showRepositoryInfo(repository: GetRepositoryInfoQuery.Repository?) {
-        mName.text = repository?.name()?:resources.getString(R.string.emptyname)
-        mDesc.text = repository?.description()?:resources.getString(R.string.emptydesc)
+        mName.text = repository?.name() ?: resources.getString(R.string.emptyname)
+        mDesc.text = repository?.description() ?: resources.getString(R.string.emptydesc)
 
         if (repository?.createdAt() != null) {
-            val format = SimpleDateFormat("dd MMMM yyyy HH:mm",getCurrentLocale())
+            val format = SimpleDateFormat("dd MMMM yyyy HH:mm", getCurrentLocale())
             mCreatedAt.text = String.format(resources.getString(R.string.RepoCreatedAt),
                 format.format(repository.createdAt()).toString())
         } else {
             mCreatedAt.text = resources.getString(R.string.emptydate)
         }
 
-        if(repository?.resourcePath() != null) {
+        if (repository?.resourcePath() != null) {
             mResourcePath.text = String.format(resources.getString(R.string.RepoResPath),
                 repository.resourcePath())
         } else {
@@ -103,7 +104,7 @@ class RepositoryInfoFragment @Inject constructor()
             mFork.text = resources.getString(R.string.empty)
         }
         if (checkNotNull(repository?.forkCount())>0) {
-            mForkCount.text = String.format(resources.getString(R.string.RepoForkCount),repository?.forkCount())
+            mForkCount.text = String.format(resources.getString(R.string.RepoForkCount), repository?.forkCount())
         } else {
             mForkCount.text = resources.getString(R.string.RepoNoForks)
         }
@@ -152,22 +153,22 @@ class RepositoryInfoFragment @Inject constructor()
     fun languagesOnClick(button: MaterialButton) {
         Answers.getInstance().logCustom(
             CustomEvent("On Expandable List Click")
-                .putCustomAttribute("Click","Languages List"))
-        if(mLangExpList.isExpanded) {
+                .putCustomAttribute("Click", "Languages List"))
+        if (mLangExpList.isExpanded) {
             button.icon = downArrow
             mLangExpList.collapse(true)
         } else {
             button.icon = upArrow
             mLangExpList.expand(true)
-            if (mBranchesExpList.isExpanded){
+            if (mBranchesExpList.isExpanded) {
             btnBranches.icon = downArrow
-            mBranchesExpList.collapse(true)}
-            if (mWatchersExpList.isExpanded){
+            mBranchesExpList.collapse(true) }
+            if (mWatchersExpList.isExpanded) {
             btnWatchers.icon = downArrow
-            mWatchersExpList.collapse(true)}
-            if (mStargazersExpList.isExpanded){
+            mWatchersExpList.collapse(true) }
+            if (mStargazersExpList.isExpanded) {
             btnStargazers.icon = downArrow
-            mStargazersExpList.collapse(true)}
+            mStargazersExpList.collapse(true) }
         }
     }
 
@@ -175,22 +176,22 @@ class RepositoryInfoFragment @Inject constructor()
     fun branchesOnClick(button: MaterialButton) {
         Answers.getInstance().logCustom(
             CustomEvent("On Expandable List Click")
-                .putCustomAttribute("Click","Branches List"))
-        if(mBranchesExpList.isExpanded) {
+                .putCustomAttribute("Click", "Branches List"))
+        if (mBranchesExpList.isExpanded) {
             button.icon = downArrow
             mBranchesExpList.collapse(true)
         } else {
             button.icon = upArrow
             mBranchesExpList.expand(true)
-            if (mLangExpList.isExpanded){
+            if (mLangExpList.isExpanded) {
             btnLang.icon = downArrow
-            mLangExpList.collapse(true)}
-            if (mWatchersExpList.isExpanded){
+            mLangExpList.collapse(true) }
+            if (mWatchersExpList.isExpanded) {
             btnWatchers.icon = downArrow
-            mWatchersExpList.collapse(true)}
-            if (mStargazersExpList.isExpanded){
+            mWatchersExpList.collapse(true) }
+            if (mStargazersExpList.isExpanded) {
             btnStargazers.icon = downArrow
-            mStargazersExpList.collapse(true)}
+            mStargazersExpList.collapse(true) }
         }
     }
 
@@ -198,22 +199,22 @@ class RepositoryInfoFragment @Inject constructor()
     fun watchersOnClick(button: MaterialButton) {
         Answers.getInstance().logCustom(
             CustomEvent("On Expandable List Click")
-                .putCustomAttribute("Click","Watchers List"))
-        if(mWatchersExpList.isExpanded) {
+                .putCustomAttribute("Click", "Watchers List"))
+        if (mWatchersExpList.isExpanded) {
             button.icon = downArrow
             mWatchersExpList.collapse(true)
         } else {
             button.icon = upArrow
             mWatchersExpList.expand(true)
-            if (mLangExpList.isExpanded){
+            if (mLangExpList.isExpanded) {
             btnLang.icon = downArrow
-            mLangExpList.collapse(true)}
-            if (mBranchesExpList.isExpanded){
+            mLangExpList.collapse(true) }
+            if (mBranchesExpList.isExpanded) {
             btnBranches.icon = downArrow
-            mBranchesExpList.collapse(true)}
-            if (mStargazersExpList.isExpanded){
+            mBranchesExpList.collapse(true) }
+            if (mStargazersExpList.isExpanded) {
             btnStargazers.icon = downArrow
-            mStargazersExpList.collapse(true)}
+            mStargazersExpList.collapse(true) }
         }
     }
 
@@ -221,23 +222,22 @@ class RepositoryInfoFragment @Inject constructor()
     fun stargazersOnClick(button: MaterialButton) {
         Answers.getInstance().logCustom(
             CustomEvent("On Expandable List Click")
-                .putCustomAttribute("Click","Stargazers List"))
-        if(mStargazersExpList.isExpanded) {
+                .putCustomAttribute("Click", "Stargazers List"))
+        if (mStargazersExpList.isExpanded) {
             button.icon = downArrow
             mStargazersExpList.collapse(true)
         } else {
             button.icon = upArrow
             mStargazersExpList.expand(true)
-            if (mLangExpList.isExpanded){
+            if (mLangExpList.isExpanded) {
             btnLang.icon = downArrow
-            mLangExpList.collapse(true)}
-            if (mBranchesExpList.isExpanded){
+            mLangExpList.collapse(true) }
+            if (mBranchesExpList.isExpanded) {
             btnBranches.icon = downArrow
-            mBranchesExpList.collapse(true)}
-            if (mWatchersExpList.isExpanded){
+            mBranchesExpList.collapse(true) }
+            if (mWatchersExpList.isExpanded) {
             mWatchersExpList.collapse(true)
-            btnWatchers.icon = downArrow}
-
+            btnWatchers.icon = downArrow }
         }
     }
 
@@ -254,14 +254,13 @@ class RepositoryInfoFragment @Inject constructor()
         return checkNotNull(activity?.findViewById(R.id.mainLayout))
     }
 
-    private fun getCurrentLocale():Locale? {
-        val locale:Locale
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+    private fun getCurrentLocale(): Locale? {
+        val locale: Locale
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             locale = checkNotNull(context?.resources?.configuration?.locales?.get(0))
-        } else{
+        } else {
             locale = checkNotNull(context?.resources?.configuration?.locale)
         }
         return locale
     }
-
 }

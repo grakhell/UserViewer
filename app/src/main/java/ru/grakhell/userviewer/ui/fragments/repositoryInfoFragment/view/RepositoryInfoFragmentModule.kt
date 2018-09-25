@@ -15,9 +15,9 @@ abstract class RepositoryInfoFragmentModule {
     @Binds
     @FragmentScope
     @Named(BaseFragmentModule.FRAGMENT)
-    abstract fun fragment(repositoryInfoFragment: RepositoryInfoFragment):Fragment
+    abstract fun fragment(repositoryInfoFragment: RepositoryInfoFragment): Fragment
 
     @Binds
     @FragmentScope
-    abstract fun repositoryInfoView(repositoryInfoFragment: RepositoryInfoFragment):RepositoryInfoView
+    abstract fun repositoryInfoView(repositoryInfoFragment: RepositoryInfoFragment): RepositoryInfoView
 }

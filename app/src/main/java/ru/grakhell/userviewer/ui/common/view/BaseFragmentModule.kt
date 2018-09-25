@@ -18,6 +18,5 @@ abstract class BaseFragmentModule {
         @FragmentScope
         @JvmStatic
         fun childFragmentManager(@Named(FRAGMENT) fragment: Fragment) = fragment.childFragmentManager
-
     }
 }

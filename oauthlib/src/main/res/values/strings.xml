@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Oauth helper</string>
+    <string name="authTypeTokenScope">Доступ только для чтения</string>
+    <string name="login">Вход</string>
+    <string name="name">Имя</string>
+    <string name="pass">Пароль</string>
+    <string name="send">Отправить</string>
+    <string name="_2fa">Введите код доступа</string>
+    <string name="title_activity_login">Sign in</string>
+    
+    <string name="error_bad_creds">Ошибка входа. Неверное имя или пароль</string>
+    <string name="error_bad_code">Ошибка входа. Неверный пароль</string>
+    <string name="error_net">Ошибка сети. Невозможно установить соединение с сервером</string>
+    <string name="action_dismiss">Отмена</string>
+    
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="AccTitle">GitHub</string>
+</resources>
