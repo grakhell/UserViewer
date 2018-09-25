@@ -1,4 +1,4 @@
-package ru.grakhell.oauthlib.auth
+package ru.grakhell.oauthlib.manager
 
 import android.app.Service
 import android.content.Intent

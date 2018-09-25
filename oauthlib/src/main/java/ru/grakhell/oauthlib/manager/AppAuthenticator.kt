@@ -1,4 +1,4 @@
-package ru.grakhell.oauthlib.auth
+package ru.grakhell.oauthlib.manager
 
 import android.accounts.AbstractAccountAuthenticator
 import android.accounts.Account
@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Bundle
 import ru.grakhell.oauthlib.R
 import ru.grakhell.oauthlib.ui.AuthActivity
+import timber.log.Timber
 
 class AppAuthenticator constructor(
     private val context: Context
@@ -21,7 +22,7 @@ class AppAuthenticator constructor(
         options: Bundle?
     ): Bundle {
         val am = AccountManager.get(context)
-        val token = am.peekAuthToken(account, authTokenType)
+        val token = am.peekAuthToken(account, authTokenType)?:""
         if (token.isEmpty()) {
             val password = am.getPassword(account)
             if (!password.isNullOrEmpty()) {
@@ -32,6 +33,7 @@ class AppAuthenticator constructor(
                 intent.putExtra(GitAccount.ARG_IS_GET_TOKEN, true)
                 intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
                 bundle.putParcelable(AccountManager.KEY_INTENT, intent)
+                return bundle
             }
         }
         if (token.isNotEmpty()) {
@@ -45,6 +47,7 @@ class AppAuthenticator constructor(
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
         intent.putExtra(GitAccount.ARG_ACCOUNT_TYPE, account?.type)
         intent.putExtra(GitAccount.ARG_AUTH_TYPE, authTokenType)
+        intent.putExtra(GitAccount.ARG_IS_ADDING_NEW_ACCOUNT, true)
         val bundle = Bundle()
         bundle.putParcelable(AccountManager.KEY_INTENT, intent)
         return bundle

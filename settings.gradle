@@ -1,1 +1,1 @@
-include ':app', ':oauthlib'
+include ':app', ':oauthlib', ':oauthmanagertest'

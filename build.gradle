@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.70'
-    ext.kotlinx_version = '0.24.0'
+    ext.kotlin_version = '1.2.71'
+    ext.kotlinx_version = '0.26.1'
     ext.apollo_version = '1.0.0-alpha2'
     ext.glide_version = '4.8.0'
     ext.rxjava_version = '2.2.0'
@@ -19,7 +19,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-rc03'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.apollographql.apollo:apollo-gradle-plugin:$apollo_version"
         classpath 'io.fabric.tools:gradle:1.25.4'

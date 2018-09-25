@@ -125,18 +125,6 @@ class ConductorActivity @Inject constructor() : BaseActivity() {
         suggestions.saveRecentQuery(query, null)
     }
 
-    private fun checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(this)) {
-                val intent = Intent(
-                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:$packageName")
-                )
-                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
-            }
-        }
-    }
-
     override fun onPause() {
         if (isFinishing)suggestions.clearHistory()
         super.onPause()
@@ -172,6 +160,18 @@ class ConductorActivity @Inject constructor() : BaseActivity() {
         } catch (e: Exception) {
             Timber.e(e)
             Crashlytics.logException(e)
+        }
+    }
+
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:$packageName")
+                )
+                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
+            }
         }
     }
 
