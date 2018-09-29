@@ -8,6 +8,10 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.core.app.ActivityCompat.startActivityForResult
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.LoginEvent
+import com.crashlytics.android.answers.SignUpEvent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.async
@@ -144,6 +148,7 @@ class ConductorPresenterImpl @Inject constructor(
                     .show()
                 _isLogged = true
                 mActivity?.showMenuItems(_isLogged)
+                Answers.getInstance().logLogin(LoginEvent().putSuccess(true))
             } else {
                 Snackbar.make(
                     checkNotNull(mActivity?.getView()),
@@ -155,6 +160,8 @@ class ConductorPresenterImpl @Inject constructor(
                     .show()
                 _isLogged = false
                 mActivity?.showMenuItems(_isLogged)
+                Answers.getInstance().logLogin(LoginEvent().putSuccess(false))
+                invalidateAuthToken(token)
             }
     }
 

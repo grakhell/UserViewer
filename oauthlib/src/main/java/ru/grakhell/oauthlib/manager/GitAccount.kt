@@ -3,8 +3,8 @@ package ru.grakhell.oauthlib.manager
 class GitAccount {
     companion object {
 
-        const val client_id = "ef5770ffd7b3fb12a445"
-        const val client_sec = "258b878a1431750bb69fa135f29abd883419cc4b"
+        const val client_id = " "
+        const val client_sec = " "
         const val key_note = "User view app key"
 
         val SCOPE: ArrayList<String> = arrayListOf(
