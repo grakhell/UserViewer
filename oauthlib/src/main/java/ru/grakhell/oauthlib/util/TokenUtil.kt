@@ -11,20 +11,20 @@ import ru.grakhell.oauthlib.service.TokenService
 class TokenUtil {
     companion object {
 
-        private val tokenClient:TokenService by lazy{
+        private val tokenClient: TokenService by lazy {
             ServiceGenerator
-                .setCredentials(GitAccount.client_id,GitAccount.client_sec)
+                .setCredentials(GitAccount.client_id, GitAccount.client_sec)
                 .createServiceToken(TokenService::class.java)
         }
 
-        fun checkToken(token:String):Boolean =
+        fun checkToken(token: String): Boolean =
             runBlocking {
                 async(Dispatchers.IO) {
                     var flag = false
-                    tokenClient.checkToken(GitAccount.client_id,token)
+                    tokenClient.checkToken(GitAccount.client_id, token)
                         .subscribe(
-                            {it -> flag = true},
-                            {it -> kotlin.run {flag = false}})
+                            { it -> flag = true },
+                            { it -> kotlin.run { flag = false } })
                     return@async flag
                 }.await()
             }
@@ -33,8 +33,8 @@ class TokenUtil {
             runBlocking {
                 async(Dispatchers.IO) {
                     var tn = ""
-                    tokenClient.resetToken(GitAccount.client_id,token)
-                        .subscribe{it -> tn = it.token}
+                    tokenClient.resetToken(GitAccount.client_id, token)
+                        .subscribe { it -> tn = it.token }
                     return@async tn
                 }.await()
             }

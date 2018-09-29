@@ -10,9 +10,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat.startActivityForResult
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
 import ru.grakhell.oauthlib.manager.GitAccount
 import ru.grakhell.oauthlib.util.TokenUtil
@@ -29,11 +27,11 @@ import javax.inject.Inject
 @ActivityScope
 class ConductorPresenterImpl @Inject constructor(
     activity: Conductor?,
-    var acc:ru.grakhell.userviewer.storage.Account
+    var acc: ru.grakhell.userviewer.storage.Account
 ) : BaseActivityPresenter<Conductor>(activity), ConductorPresenter {
 
-    private var _isLogged:Boolean = false
-    private val mAccountManager: AccountManager by lazy {AccountManager.get(mActivity as Activity) }
+    private var _isLogged: Boolean = false
+    private val mAccountManager: AccountManager by lazy { AccountManager.get(mActivity as Activity) }
 
     override fun accountPicker() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -77,7 +75,7 @@ class ConductorPresenterImpl @Inject constructor(
             try {
                 mAccountManager
                     .invalidateAuthToken(GitAccount.ACCOUNT_TYPE, authToken)
-            } catch ( ex: Exception) {
+            } catch (ex: Exception) {
                 Timber.e(ex)
             }
         }
@@ -86,8 +84,8 @@ class ConductorPresenterImpl @Inject constructor(
     override fun getTokenForExistingAccount(
         account: Account,
         authTokenType: String
-    ):Boolean {
-        return runBlocking{
+    ): Boolean {
+        return runBlocking {
             try {
                 async(Dispatchers.Default) {
                     val future =
@@ -102,7 +100,7 @@ class ConductorPresenterImpl @Inject constructor(
                     )
                 }.await()
                 return@runBlocking true
-            } catch (ex:InvalidKeyException) {
+            } catch (ex: InvalidKeyException) {
 
                 Timber.e(ex)
                 return@runBlocking false
@@ -113,9 +111,9 @@ class ConductorPresenterImpl @Inject constructor(
         }
     }
 
-    override fun isLogged(): Boolean  = _isLogged
+    override fun isLogged(): Boolean = _isLogged
 
-    override fun setLogged(flag:Boolean) {
+    override fun setLogged(flag: Boolean) {
         _isLogged = flag
     }
 
@@ -125,16 +123,16 @@ class ConductorPresenterImpl @Inject constructor(
         val accs = mAccountManager.getAccountsByType(accType)
         try {
             accs.forEach { x -> run {
-                if(x.name == accName) { acc.setAccount(x.name)
-                getTokenForExistingAccount(x,GitAccount.AUTHTOKEN_TYPE_GIT_SCOPE)
-            }}}
+                if (x.name == accName) { acc.setAccount(x.name)
+                getTokenForExistingAccount(x, GitAccount.AUTHTOKEN_TYPE_GIT_SCOPE)
+            } } }
         } catch (ex: Exception) {
             Timber.e(ex)
         }
     }
 
-    fun checkToken(token:String) {
-            if(TokenUtil.checkToken(token)) {
+    fun checkToken(token: String) {
+            if (TokenUtil.checkToken(token)) {
                 acc.setKey(token)
                 Snackbar.make(
                     checkNotNull(mActivity?.getView()),
@@ -161,12 +159,12 @@ class ConductorPresenterImpl @Inject constructor(
     }
 
     override fun onStart(savedInstanceState: Bundle?) {
-        _isLogged = savedInstanceState?.getBoolean("logged")?:false
+        _isLogged = savedInstanceState?.getBoolean("logged") ?: false
         super.onStart(savedInstanceState)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putBoolean("logged",_isLogged)
+        outState?.putBoolean("logged", _isLogged)
         super.onSaveInstanceState(outState)
     }
 

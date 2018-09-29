@@ -50,7 +50,6 @@ class ConductorActivity @Inject constructor() : BaseActivity<ConductorPresenter>
             UserViewerSuggestionProvider.MODE)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -98,7 +97,7 @@ class ConductorActivity @Inject constructor() : BaseActivity<ConductorPresenter>
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item?.itemId) {
+        return when (item?.itemId) {
             R.id.menu_user_change -> {
                 activityPresenter.accountPicker()
                 true
@@ -107,13 +106,12 @@ class ConductorActivity @Inject constructor() : BaseActivity<ConductorPresenter>
                 activityPresenter.clear()
                 activityPresenter.setLogged(false)
                 showMenuItems(activityPresenter.isLogged())
-                getNavController().popBackStack(R.id.startFragment,false)
+                getNavController().popBackStack(R.id.startFragment, false)
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
-
     }
 
     override fun onStart() {
@@ -212,7 +210,6 @@ class ConductorActivity @Inject constructor() : BaseActivity<ConductorPresenter>
         super.onPause()
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -233,7 +230,7 @@ class ConductorActivity @Inject constructor() : BaseActivity<ConductorPresenter>
         return checkNotNull(findViewById(R.id.mainLayout))
     }
 
-    override fun showMenuItems(flag:Boolean){
+    override fun showMenuItems(flag: Boolean) {
         if (flag) {
             menuUserName.title = activityPresenter.getAccountName()
             menuUserChange.title = resources.getString(R.string.menuUserChange)

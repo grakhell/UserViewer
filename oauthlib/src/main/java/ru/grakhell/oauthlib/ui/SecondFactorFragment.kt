@@ -24,7 +24,8 @@ class SecondFactorFragment : Fragment() {
     private lateinit var viewModel: AuthViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.second_factor_fragment, container, false)
@@ -38,14 +39,13 @@ class SecondFactorFragment : Fragment() {
     override fun onStart() {
         sendButton.setOnClickListener {
             try {
-                if(!NetworkUtil.isNetworkConnected(checkNotNull(activity))) throw NetworkErrorException()
+                if (!NetworkUtil.isNetworkConnected(checkNotNull(activity))) throw NetworkErrorException()
                 viewModel.userToken.value = userCode.text.toString()
                 runBlocking { viewModel.getResponse2FA().await() }
             } catch (ex: NetworkErrorException) {
                 viewModel.errCodes.value = AuthViewModel.NET_ERROR
                 Timber.e(ex)
-            }
-            catch (ex: Exception) {
+            } catch (ex: Exception) {
                 Timber.e(ex)
             }
         }

@@ -6,7 +6,6 @@ import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.apollographql.apollo.response.CustomTypeAdapter
 import com.apollographql.apollo.response.CustomTypeValue
 import okhttp3.OkHttpClient
-import ru.grakhell.userviewer.storage.Account
 import ru.grakhell.userviewer.domain.entity.type.CustomType
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,7 +14,7 @@ import java.util.Locale
 class GitHubAPIService {
     companion object {
         private const val BASE_URL = "https://api.github.com/graphql"
-        private var credToken:String = ""
+        private var credToken: String = ""
         private val cacheFactory = LruNormalizedCacheFactory(EvictionPolicy.builder()
             .maxSizeBytes(10485760).build())
         private val apolloClient: ApolloClient by lazy {
@@ -36,7 +35,7 @@ class GitHubAPIService {
                 .build()
         }
 
-        fun setToken(token:String):GitHubAPIService.Companion {
+        fun setToken(token: String): GitHubAPIService.Companion {
             credToken = token
             return this
         }

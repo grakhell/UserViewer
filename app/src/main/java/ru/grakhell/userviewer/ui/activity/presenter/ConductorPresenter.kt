@@ -9,18 +9,18 @@ interface ConductorPresenter : ActivityPresenter {
 
     fun accountPicker()
 
-    fun invalidateAuthToken(authToken:String)
+    fun invalidateAuthToken(authToken: String)
 
     fun getTokenForExistingAccount(
         account: Account,
         authTokenType: String
-    ):Boolean
+    ): Boolean
 
-    fun isLogged():Boolean
-    fun setLogged(flag:Boolean)
+    fun isLogged(): Boolean
+    fun setLogged(flag: Boolean)
 
-    fun setAccountName(name:String)
-    fun getAccountName():String
+    fun setAccountName(name: String)
+    fun getAccountName(): String
 
     fun takeAccount(data: Intent?)
 

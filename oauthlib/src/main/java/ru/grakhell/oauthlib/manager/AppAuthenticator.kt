@@ -9,7 +9,6 @@ import android.content.Intent
 import android.os.Bundle
 import ru.grakhell.oauthlib.R
 import ru.grakhell.oauthlib.ui.AuthActivity
-import timber.log.Timber
 
 class AppAuthenticator constructor(
     private val context: Context
@@ -22,7 +21,7 @@ class AppAuthenticator constructor(
         options: Bundle?
     ): Bundle {
         val am = AccountManager.get(context)
-        val token = am.peekAuthToken(account, authTokenType)?:""
+        val token = am.peekAuthToken(account, authTokenType) ?: ""
         if (token.isEmpty()) {
             val password = am.getPassword(account)
             if (!password.isNullOrEmpty()) {

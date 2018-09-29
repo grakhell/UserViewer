@@ -7,11 +7,11 @@ import javax.inject.Singleton
 
 @Singleton
 class Account @Inject constructor() {
-    private lateinit var usr:String
-    private lateinit var key:String
+    private lateinit var usr: String
+    private lateinit var key: String
 
     fun setAccount(
-        @NotNull name:String
+        @NotNull name: String
     ) {
         usr = name
     }
@@ -19,9 +19,9 @@ class Account @Inject constructor() {
     fun getAccount() = usr
 
     fun setKey(
-        @NotNull token:String
+        @NotNull token: String
     ) {
-        key = Credentials.basic("bearer",token)
+        key = Credentials.basic("bearer", token)
     }
 
     fun getKey() = key

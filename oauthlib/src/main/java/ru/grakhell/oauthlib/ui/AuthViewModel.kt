@@ -34,7 +34,7 @@ class AuthViewModel(private val context: Application) : AndroidViewModel(context
     var accountType: MutableLiveData<String> = MutableLiveData()
     var authTokenType: MutableLiveData<String> = MutableLiveData()
 
-    private lateinit var client:UserAuth
+    private lateinit var client: UserAuth
     private val disposable = CompositeDisposable()
 
     private fun initClient() {
@@ -60,7 +60,7 @@ class AuthViewModel(private val context: Application) : AndroidViewModel(context
                                 parseErrorResponse(ex)
                             } else {
                                 Timber.e(ex)
-                            }}}))
+                            } } }))
         }
     }
 
@@ -82,14 +82,14 @@ class AuthViewModel(private val context: Application) : AndroidViewModel(context
                                     parseErrorResponse(ex)
                                 } else {
                                     Timber.e(ex)
-                                }}}))
+                                } } }))
                 }
         }
 
     private fun parseErrorResponse(ex: HttpException) {
         Timber.d("${ex.code()}: ${ex.response().message()}")
         Timber.d(ex.response().errorBody()?.string())
-        when(ex.code()) {
+        when (ex.code()) {
             401 -> {
                 val head = ex.response().headers().get(HEADER_2FA)
                 if (!head.isNullOrEmpty()) {

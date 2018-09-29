@@ -1,6 +1,6 @@
 package ru.grakhell.oauthlib.manager
 
-class GitAccount{
+class GitAccount {
     companion object {
 
         const val client_id = "ef5770ffd7b3fb12a445"

@@ -10,13 +10,13 @@ interface TokenService {
 
     @GET("/applications/{client_id}/tokens/{access_token}")
     fun checkToken(
-        @Path("client_id")clientId:String,
-        @Path("access_token")token:String
+        @Path("client_id")clientId: String,
+        @Path("access_token")token: String
     ): Observable<TokenServiceResponse>
 
     @POST("/applications/{client_id}/tokens/{access_token}")
     fun resetToken(
-        @Path("client_id")clientId:String,
-        @Path("access_token")token:String
+        @Path("client_id")clientId: String,
+        @Path("access_token")token: String
     ): Observable<TokenServiceResponse>
 }

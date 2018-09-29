@@ -44,5 +44,5 @@ abstract class ConductorActivityModule {
 
     @ActivityScope
     @Binds
-    abstract fun conductor(activity: ConductorActivity):Conductor
+    abstract fun conductor(activity: ConductorActivity): Conductor
 }

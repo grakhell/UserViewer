@@ -23,7 +23,8 @@ class CredentialsFragment : Fragment() {
     private lateinit var viewModel: AuthViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.credentials_fragment, container, false)
@@ -37,19 +38,17 @@ class CredentialsFragment : Fragment() {
     override fun onStart() {
         logButton.setOnClickListener {
             try {
-                if(!NetworkUtil.isNetworkConnected(checkNotNull(activity))) throw NetworkErrorException()
+                if (!NetworkUtil.isNetworkConnected(checkNotNull(activity))) throw NetworkErrorException()
                 viewModel.userName.value = userName.text.toString()
                 viewModel.userKey.value = userPass.text.toString()
                 runBlocking { viewModel.getResponse().await() }
             } catch (ex: NetworkErrorException) {
                 viewModel.errCodes.value = AuthViewModel.NET_ERROR
                 Timber.e(ex)
-            }
-            catch (ex: Exception) {
+            } catch (ex: Exception) {
                 Timber.e(ex)
             }
         }
         super.onStart()
     }
-
 }

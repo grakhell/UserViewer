@@ -37,8 +37,6 @@ abstract class BaseActivity<T : ActivityPresenter> : AppCompatActivity(), HasSup
             .commit()
     }
 
-
-
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         activityPresenter.onSaveInstanceState(outState)
