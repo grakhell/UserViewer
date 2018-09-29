@@ -44,3 +44,5 @@ app/src/main/graphql/ru/grakhell/githubusersearch/domain/entity/schema\.json\.ol
 app/fabric\.properties
 
 fabric\.properties
+
+oauthmanagertest/

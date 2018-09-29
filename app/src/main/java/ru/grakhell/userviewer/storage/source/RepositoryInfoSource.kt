@@ -20,7 +20,7 @@ class RepositoryInfoSource(
 
     private lateinit var mResponse: Response<GetRepositoryInfoQuery.Data>
     private val publisher: BehaviorSubject<GetRepositoryInfoQuery.Repository?> = BehaviorSubject.create()
-    private lateinit var disposable: Disposable
+    private var disposable: Disposable? = null
 
     fun parse(): Observable<GetRepositoryInfoQuery.Repository?> {
         getInfo()

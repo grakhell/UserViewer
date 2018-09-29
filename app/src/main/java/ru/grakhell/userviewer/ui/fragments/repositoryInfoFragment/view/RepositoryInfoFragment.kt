@@ -20,7 +20,7 @@ import net.cachapa.expandablelayout.ExpandableLayout
 import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.domain.entity.GetRepositoryInfoQuery
 import ru.grakhell.userviewer.injection.scope.FragmentScope
-import ru.grakhell.userviewer.ui.activity.ConductorActivity
+import ru.grakhell.userviewer.ui.activity.view.ConductorActivity
 import ru.grakhell.userviewer.ui.common.view.BaseView
 import ru.grakhell.userviewer.ui.fragments.repositoryInfoFragment.presenter.RepositoryInfoPresenter
 import java.text.SimpleDateFormat

@@ -6,12 +6,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import ru.grakhell.userviewer.injection.scope.ActivityScope
+import ru.grakhell.userviewer.storage.Account
 import ru.grakhell.userviewer.storage.Repository
 import ru.grakhell.userviewer.storage.RepositoryImpl
 import ru.grakhell.userviewer.storage.remote.GitApiQueries
 import ru.grakhell.userviewer.storage.remote.QueryManager
-import ru.grakhell.userviewer.ui.activity.ConductorActivity
-import ru.grakhell.userviewer.ui.activity.ConductorActivityModule
+import ru.grakhell.userviewer.ui.activity.view.ConductorActivity
+import ru.grakhell.userviewer.ui.activity.view.ConductorActivityModule
 import javax.inject.Singleton
 
 @Module

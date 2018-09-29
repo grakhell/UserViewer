@@ -50,18 +50,18 @@ dependencies {
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc02'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-plus:15.0.1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
-    implementation 'androidx.annotation:annotation:1.0.0-rc02'
+    implementation 'androidx.annotation:annotation:1.0.0'
     kapt "com.jakewharton:butterknife-compiler:$butterknife_version"
-    kapt 'androidx.annotation:annotation:1.0.0-rc02'
+    kapt 'androidx.annotation:annotation:1.0.0'
 
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-    implementation 'com.google.android.material:material:1.0.0-rc02'
+    implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

@@ -19,7 +19,7 @@ class ServiceGenerator {
             .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
-        private lateinit var authToken:String
+        var authToken:String = " "
 
         fun <T> createService(
             @NotNull serviceClass: Class<T>
@@ -30,6 +30,20 @@ class ServiceGenerator {
                     return@run response.request().newBuilder().header("Authorization", authToken)
                         .build()
                 }}
+            }
+            return retrofit.build().create(serviceClass)
+        }
+
+        fun <T> createServiceToken(
+            @NotNull serviceClass: Class<T>
+        ):T {
+            if (authToken.isNotEmpty()) {
+                httpClient.addInterceptor { chain -> run{
+                    val rq = chain.request().newBuilder()
+                        .addHeader("Authorization", authToken)
+                        .build()
+                    return@run chain.proceed(rq)
+                }}
                 retrofit.client(httpClient.build())
             }
             return retrofit.build().create(serviceClass)
@@ -39,7 +53,7 @@ class ServiceGenerator {
             @NotNull userName:String,
             @NotNull userPass:String
         ):ServiceGenerator.Companion {
-            authToken = Credentials.basic(userName,userPass)
+            authToken = Credentials.basic(userName, userPass)
             return this
         }
 

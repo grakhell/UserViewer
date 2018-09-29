@@ -19,7 +19,7 @@ class UserInfoSource(
 
     private lateinit var mResponse: Response<GetUserInfoQuery.Data>
     private val publisher: BehaviorSubject<GetUserInfoQuery.User?> = BehaviorSubject.create()
-    private lateinit var disposable: Disposable
+    private var disposable: Disposable? = null
 
     fun parse(): Observable<GetUserInfoQuery.User?> {
         getInfo()

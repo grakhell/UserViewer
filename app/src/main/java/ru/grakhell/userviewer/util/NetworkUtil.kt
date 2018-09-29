@@ -2,6 +2,7 @@ package ru.grakhell.userviewer.util
 
 import android.content.Context
 import android.net.ConnectivityManager
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import java.io.IOException
@@ -19,7 +20,7 @@ class NetworkUtil {
                     isOnline().await() }
         }
 
-        private fun isOnline() = async {
+        private fun isOnline() = GlobalScope.async {
                 try {
                     val timeoutMs = 1500
                     val sock = Socket()
