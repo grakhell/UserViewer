@@ -3,7 +3,7 @@ package ru.grakhell.userviewer.ui.fragments.userInfoFragment.view
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.grakhell.userviewer.domain.entity.GetUserInfoQuery
-import ru.grakhell.userviewer.ui.activity.ConductorActivity
+import ru.grakhell.userviewer.ui.activity.view.ConductorActivity
 import ru.grakhell.userviewer.ui.common.view.MVP
 
 interface UserInfoView : MVP {

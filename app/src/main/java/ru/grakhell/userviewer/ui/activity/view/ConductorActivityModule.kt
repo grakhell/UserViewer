@@ -1,4 +1,4 @@
-package ru.grakhell.userviewer.ui.activity
+package ru.grakhell.userviewer.ui.activity.view
 
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Binds
@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import ru.grakhell.userviewer.injection.scope.ActivityScope
 import ru.grakhell.userviewer.injection.scope.FragmentScope
+import ru.grakhell.userviewer.ui.activity.presenter.ConductorPresenterModule
 import ru.grakhell.userviewer.ui.common.BaseActivityModule
 import ru.grakhell.userviewer.ui.fragments.repositoryInfoFragment.view.RepositoryInfoFragment
 import ru.grakhell.userviewer.ui.fragments.repositoryInfoFragment.view.RepositoryInfoFragmentModule
@@ -16,7 +17,9 @@ import ru.grakhell.userviewer.ui.fragments.startFragment.view.StartFragmentModul
 import ru.grakhell.userviewer.ui.fragments.userInfoFragment.view.UserInfoFragment
 import ru.grakhell.userviewer.ui.fragments.userInfoFragment.view.UserInfoFragmentModule
 
-@Module(includes = [BaseActivityModule::class])
+@Module(includes = [
+    BaseActivityModule::class,
+    ConductorPresenterModule::class])
 abstract class ConductorActivityModule {
 
     @FragmentScope
@@ -38,4 +41,8 @@ abstract class ConductorActivityModule {
     @ActivityScope
     @Binds
     abstract fun activity(activity: ConductorActivity): AppCompatActivity
+
+    @ActivityScope
+    @Binds
+    abstract fun conductor(activity: ConductorActivity):Conductor
 }

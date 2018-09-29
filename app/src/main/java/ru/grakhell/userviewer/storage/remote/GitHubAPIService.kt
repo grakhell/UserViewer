@@ -5,8 +5,8 @@ import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.apollographql.apollo.response.CustomTypeAdapter
 import com.apollographql.apollo.response.CustomTypeValue
-import okhttp3.Credentials
 import okhttp3.OkHttpClient
+import ru.grakhell.userviewer.storage.Account
 import ru.grakhell.userviewer.domain.entity.type.CustomType
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -14,27 +14,31 @@ import java.util.Locale
 
 class GitHubAPIService {
     companion object {
-            private const val BASE_URL = "https://api.github.com/graphql"
-            private val cacheFactory = LruNormalizedCacheFactory(EvictionPolicy.builder()
-                .maxSizeBytes(10485760).build())
-
-            private val apolloClient: ApolloClient by lazy {
-                ApolloClient.builder()
-                    .serverUrl(BASE_URL)
-                    .normalizedCache(cacheFactory)
-                    .addCustomTypeAdapter(CustomType.DATETIME, DateCustomTypeAdapter())
-                    .okHttpClient(createOkHttpClient())
-                    .build()
+        private const val BASE_URL = "https://api.github.com/graphql"
+        private var credToken:String = ""
+        private val cacheFactory = LruNormalizedCacheFactory(EvictionPolicy.builder()
+            .maxSizeBytes(10485760).build())
+        private val apolloClient: ApolloClient by lazy {
+            ApolloClient.builder()
+                .serverUrl(BASE_URL)
+                .normalizedCache(cacheFactory)
+                .addCustomTypeAdapter(CustomType.DATETIME, DateCustomTypeAdapter())
+                .okHttpClient(createOkHttpClient())
+                .build()
             }
 
         private fun createOkHttpClient(): OkHttpClient {
             return OkHttpClient.Builder()
                 .authenticator { _, response -> kotlin.run {
-                    val cred = Credentials.basic("bearer", "add5f038eef0edf7eff6e079a6e97d1b439e9b59")
-                    if (cred == response.request().header("Authorization")) return@run null
-                    return@run response.request().newBuilder().header("Authorization", cred)
+                    if (credToken == response.request().header("Authorization")) return@run null
+                    return@run response.request().newBuilder().header("Authorization", credToken)
                         .build() } }
                 .build()
+        }
+
+        fun setToken(token:String):GitHubAPIService.Companion {
+            credToken = token
+            return this
         }
 
         fun getClient(): ApolloClient {

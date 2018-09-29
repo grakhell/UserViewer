@@ -21,7 +21,7 @@ import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.domain.entity.GetUserInfoQuery
 import ru.grakhell.userviewer.injection.module.GlideApp
 import ru.grakhell.userviewer.injection.scope.FragmentScope
-import ru.grakhell.userviewer.ui.activity.ConductorActivity
+import ru.grakhell.userviewer.ui.activity.view.ConductorActivity
 import ru.grakhell.userviewer.ui.common.view.BaseView
 import ru.grakhell.userviewer.ui.fragments.userInfoFragment.presenter.UserInfoPresenter
 import javax.inject.Inject

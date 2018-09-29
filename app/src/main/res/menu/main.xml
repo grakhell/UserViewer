@@ -3,9 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_user_name"
+        android:enabled="false"
+        android:title="@string/menuUserName"
+        android:visible="false" />
+    <item
+        android:id="@+id/menu_user_change"
+        android:title="@string/menuUserEnter" />
+    <item
+        android:id="@+id/menu_user_exit"
+        android:title="@string/menuUserExit"
+        android:visible="false" />
+    <item
         android:id="@+id/app_bar_search"
+        android:enabled="false"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="@string/menu_search"
-        app:showAsAction="always"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        android:visible="true"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always" />
 </menu>

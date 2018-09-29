@@ -106,7 +106,7 @@ class AuthActivity : FragmentActivity() {
         mAccountManager?.addAccountExplicitly(acc, viewModel.userKey.value, null)
         mAccountManager?.setAuthToken(acc,GitAccount.AUTHTOKEN_TYPE_GIT_SCOPE,viewModel.response.value?.token)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(baseContext)
+        //val preferences = PreferenceManager.getDefaultSharedPreferences(baseContext)
 
         viewModel.is2FactorAuth.value = false
 

@@ -11,7 +11,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.injection.scope.FragmentScope
-import ru.grakhell.userviewer.ui.activity.ConductorActivity
+import ru.grakhell.userviewer.ui.activity.view.ConductorActivity
 import ru.grakhell.userviewer.ui.common.view.BaseView
 import ru.grakhell.userviewer.ui.fragments.searchResultFragment.presenter.SearchResultPresenter
 import javax.inject.Inject

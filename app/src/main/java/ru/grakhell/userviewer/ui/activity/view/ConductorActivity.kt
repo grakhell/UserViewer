@@ -1,4 +1,4 @@
-package ru.grakhell.userviewer.ui.activity
+package ru.grakhell.userviewer.ui.activity.view
 
 import android.annotation.TargetApi
 import android.app.SearchManager
@@ -11,6 +11,9 @@ import android.os.Bundle
 import android.provider.SearchRecentSuggestions
 import android.provider.Settings
 import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.Navigation.findNavController
 import com.crashlytics.android.Crashlytics
@@ -23,6 +26,7 @@ import io.fabric.sdk.android.Fabric
 import ru.grakhell.userviewer.R
 import ru.grakhell.userviewer.injection.scope.ActivityScope
 import ru.grakhell.userviewer.storage.local.UserViewerSuggestionProvider
+import ru.grakhell.userviewer.ui.activity.presenter.ConductorPresenter
 import ru.grakhell.userviewer.ui.common.BaseActivity
 import ru.grakhell.userviewer.util.NetworkUtil
 import ru.grakhell.userviewer.util.ViewUtil
@@ -30,14 +34,22 @@ import timber.log.Timber
 import javax.inject.Inject
 
 const val ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE: Int = 5469
+const val ACCOUNT_CODE = 1601
 
 @ActivityScope
-class ConductorActivity @Inject constructor() : BaseActivity() {
+class ConductorActivity @Inject constructor() : BaseActivity<ConductorPresenter>(), Conductor {
+
+    private lateinit var menuUserChange: MenuItem
+    private lateinit var menuUserExit: MenuItem
+    private lateinit var menuUserName: MenuItem
+    private lateinit var searchView: SearchView
+
     private val suggestions: SearchRecentSuggestions by lazy {
         SearchRecentSuggestions(this,
             UserViewerSuggestionProvider.AUTHORITY,
             UserViewerSuggestionProvider.MODE)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -52,7 +64,7 @@ class ConductorActivity @Inject constructor() : BaseActivity() {
         menuInflater.inflate(R.menu.main, menu)
 
         val searchManager: SearchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView: SearchView = (menu?.findItem(R.id.app_bar_search)?.actionView) as SearchView
+        searchView = (menu?.findItem(R.id.app_bar_search)?.actionView) as SearchView
         searchView.run {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setIconifiedByDefault(true)
@@ -78,7 +90,30 @@ class ConductorActivity @Inject constructor() : BaseActivity() {
                 }
             })
         }
+        menuUserName = menu.findItem(R.id.menu_user_name)
+        menuUserChange = menu.findItem(R.id.menu_user_change)
+        menuUserExit = menu.findItem(R.id.menu_user_exit)
+        showMenuItems(activityPresenter.isLogged())
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item?.itemId) {
+            R.id.menu_user_change -> {
+                activityPresenter.accountPicker()
+                true
+            }
+            R.id.menu_user_exit -> {
+                activityPresenter.clear()
+                activityPresenter.setLogged(false)
+                showMenuItems(activityPresenter.isLogged())
+                getNavController().popBackStack(R.id.startFragment,false)
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
     }
 
     override fun onStart() {
@@ -121,15 +156,6 @@ class ConductorActivity @Inject constructor() : BaseActivity() {
         }
     }
 
-    private fun saveQueryToSuggestion(query: String) {
-        suggestions.saveRecentQuery(query, null)
-    }
-
-    override fun onPause() {
-        if (isFinishing)suggestions.clearHistory()
-        super.onPause()
-    }
-
     fun showUser(user: String) {
         try {
             Answers.getInstance().logContentView(
@@ -170,20 +196,69 @@ class ConductorActivity @Inject constructor() : BaseActivity() {
                     Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:$packageName")
                 )
-                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
+                startActivityForResult(intent,
+                    ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE
+                )
             }
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
+    private fun saveQueryToSuggestion(query: String) {
+        suggestions.saveRecentQuery(query, null)
+    }
+
+    override fun onPause() {
+        if (isFinishing)suggestions.clearHistory()
+        super.onPause()
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
-            if (!Settings.canDrawOverlays(this)) {
-                checkPermission()
+        when (requestCode) {
+            ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE -> {
+                @TargetApi(Build.VERSION_CODES.M)
+                if (!Settings.canDrawOverlays(this)) {
+                    checkPermission()
+                }
+            }
+            ACCOUNT_CODE -> {
+                activityPresenter.takeAccount(data)
             }
         }
+    }
+
+    override fun getView(): View {
+        return checkNotNull(findViewById(R.id.mainLayout))
+    }
+
+    override fun showMenuItems(flag:Boolean){
+        if (flag) {
+            menuUserName.title = activityPresenter.getAccountName()
+            menuUserChange.title = resources.getString(R.string.menuUserChange)
+        } else {
+            menuUserChange.title = resources.getString(R.string.menuUserEnter)
+            menuUserName.title = resources.getString(R.string.empty)
+        }
+        val clearButton =
+            searchView.findViewById(androidx.appcompat.R.id.search_close_btn) as ImageView
+        val searchButton =
+            searchView.findViewById(androidx.appcompat.R.id.search_button) as ImageView
+        val voiceButton =
+            searchView.findViewById(androidx.appcompat.R.id.search_voice_btn) as ImageView
+        val searchEditText =
+            searchView.findViewById(androidx.appcompat.R.id.search_src_text) as SearchView.SearchAutoComplete
+
+        clearButton.isEnabled = flag
+        searchEditText.isEnabled = flag
+        searchButton.isEnabled = flag
+        voiceButton.isEnabled = flag
+        searchView.isSubmitButtonEnabled = flag
+        searchView.isEnabled = flag
+        searchView.isFocusable = flag
+        menuUserExit.isVisible = flag
+        menuUserName.isVisible = flag
     }
 
     fun getNavController() = findNavController(this, R.id.nav_host_fragment)

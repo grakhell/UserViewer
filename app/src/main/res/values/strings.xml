@@ -5,6 +5,9 @@
     <string name="strAvatar">Аватар</string>
     <string name="strStarred">Кол-во отмеченных репозиториев</string>
 
+    <string name="actionLogInSuccess">Вход выполнен успешно</string>
+    <string name="actionLogInError">Ошибка входа</string>
+
     <string name="UserLogin">Логин %1$s</string>
     <string name="UserName">Имя %1$s</string>
     <string name="UserRepositories">Репозиториев: %1$d</string>
@@ -46,6 +49,11 @@
     <string name="emptylogin">Логин не указан</string>
 
     <string name="placeholder">placeholder</string>
+
+    <string name="menuUserName"> </string>
+    <string name="menuUserExit">Выход</string>
+    <string name="menuUserEnter">Войти</string>
+    <string name="menuUserChange">Сменить</string>
 
     <string name="ok_string">OK</string>
     <string name="dialog_title_error">Ошибка!</string>

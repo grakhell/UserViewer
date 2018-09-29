@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:fullBackupContent="@xml/backupscheme"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-        <activity android:name="ru.grakhell.userviewer.ui.activity.ConductorActivity"
+        <activity android:name="ru.grakhell.userviewer.ui.activity.view.ConductorActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

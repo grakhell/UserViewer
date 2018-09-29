@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:background="?android:attr/colorBackground"
-    tools:context=".ui.activity.ConductorActivity" >
+    tools:context=".ui.activity.view.ConductorActivity" >
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarMain"
         android:layout_width="match_parent"
