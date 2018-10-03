@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import ru.grakhell.userviewer.R
@@ -81,7 +82,7 @@ class UserInfoPresenterImpl @Inject constructor(
         }
     }
 
-    private fun setOrganisationsList() = async {
+    private fun setOrganisationsList() = GlobalScope.async {
         val adapter = UserInfoOrganisationRecyclerViewAdapter()
         mView?.getOrganisationRView()?.swapAdapter(adapter, true)
         disposable.add(
@@ -94,7 +95,7 @@ class UserInfoPresenterImpl @Inject constructor(
                     Crashlytics.logException(ex) })
         ) }
 
-    private fun setRepositoriesList() = async {
+    private fun setRepositoriesList() = GlobalScope.async {
         val adapter = UserInfoRepositoriesRecyclerViewAdapter()
         mView?.getRepositoriesRView()?.swapAdapter(adapter, true)
         disposable.add(
@@ -110,7 +111,7 @@ class UserInfoPresenterImpl @Inject constructor(
                     Crashlytics.logException(ex) })
         ) }
 
-    private fun setStarredRepoList() = async {
+    private fun setStarredRepoList() = GlobalScope.async {
         val adapter = UserInfoStarredReposRecyclerViewAdapter()
         mView?.getStarredReposRView()?.swapAdapter(adapter, true)
         disposable.add(

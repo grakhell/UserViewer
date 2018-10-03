@@ -5,6 +5,7 @@ import androidx.paging.PageKeyedDataSource
 import com.apollographql.apollo.api.Response
 import com.crashlytics.android.Crashlytics
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import ru.grakhell.userviewer.domain.entity.GetBranchesInfoQuery
 import ru.grakhell.userviewer.storage.remote.RxObservableCreator
@@ -65,7 +66,7 @@ class RepositoryBranchesInfoDataSource constructor(
         params: LoadParams<String>,
         callback: LoadCallback<String, GetBranchesInfoQuery.Node>
     ) {
-        launch {
+        GlobalScope.launch {
             try {
                 disposable.add(mRepository.getBranchesInfoObservable(mUserName, params
                     .requestedLoadSize, params.key, mRepoName)

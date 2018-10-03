@@ -28,6 +28,7 @@ class ServiceGenerator {
                     return@run response.request().newBuilder().header("Authorization", authToken)
                         .build()
                 } }
+                retrofit.client(httpClient.build())
             }
             return retrofit.build().create(serviceClass)
         }

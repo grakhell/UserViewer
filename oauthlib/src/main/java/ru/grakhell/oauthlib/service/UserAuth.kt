@@ -9,12 +9,6 @@ import ru.grakhell.oauthlib.model.Response
 
 interface UserAuth {
 
-    /*@PUT("/authorizations/clients/${GitAccount.client_id}")
-    fun authorize(
-        clientSec: String,
-        scopes:String
-    ): Observable<Response>*/
-
     @POST("/authorizations")
     fun authorize(
         @Body body: Query

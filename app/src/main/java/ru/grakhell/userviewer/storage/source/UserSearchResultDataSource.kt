@@ -5,6 +5,7 @@ import androidx.paging.PageKeyedDataSource
 import com.apollographql.apollo.api.Response
 import com.crashlytics.android.Crashlytics
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import ru.grakhell.userviewer.domain.entity.GetUserSearchResultQuery
 import ru.grakhell.userviewer.storage.remote.RxObservableCreator
@@ -66,7 +67,7 @@ class UserSearchResultDataSource constructor(
         params: LoadParams<String>,
         callback: LoadCallback<String, GetUserSearchResultQuery.AsUser>
     ) {
-        launch {
+        GlobalScope.launch {
             try {
                 disposable.add(mRepository.getUserSearchResultObservable(
                     mName,

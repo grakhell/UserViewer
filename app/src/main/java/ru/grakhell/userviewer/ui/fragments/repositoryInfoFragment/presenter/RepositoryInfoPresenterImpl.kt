@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import ru.grakhell.userviewer.R
@@ -80,7 +81,7 @@ class RepositoryInfoPresenterImpl @Inject constructor(
         }
     }
 
-    private fun setLanguagesList() = async {
+    private fun setLanguagesList() = GlobalScope.async {
         val adapter = RepositoryInfoLanguageRecyclerViewAdapter()
         mView?.getLanguagesRecyclerView()?.swapAdapter(adapter, true)
         disposable.add(
@@ -94,7 +95,7 @@ class RepositoryInfoPresenterImpl @Inject constructor(
         )
     }
 
-    private fun setBranchesList() = async {
+    private fun setBranchesList() = GlobalScope.async {
         val adapter = RepositoryInfoBranchRecyclerViewAdapter()
         mView?.getBranchesRecyclerView()?.swapAdapter(adapter, true)
         disposable.add(mBranchesSource.execute(params).subscribe(
