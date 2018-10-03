@@ -38,9 +38,9 @@ Both
 Licence
 ====================
 
-All trademarks belongs to it's rightful owners
+All trademarks belongs to they's rightful owners
 
-This app lies under
+This app is under
 
   >MIT License
   >
