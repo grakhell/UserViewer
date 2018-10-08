@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class GitHubAPIService {
+class GitHubAPIService private constructor(){
     companion object {
         private const val BASE_URL = "https://api.github.com/graphql"
         private var credToken: String = ""
